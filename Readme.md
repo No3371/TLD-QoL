@@ -16,6 +16,7 @@ This is a QoL mod for The Long Dark.
     - Default is Left Shift.
     - Note: Somehow the first usage after launch will unintentionally close the interface.
 - **Fast Pickup**: Directly "Take It" items by holding Interact for a bit then release.
+    - Explanation: Instead of click a item to inspect then click to "Take It", press and hold for 0.3~1 seconds to perform "Take It".
     - The triggering duration can be configured.
 - **QuickDrop**: Press a key to drop items from inventory.
     - Default is Q. 
