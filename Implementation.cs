@@ -170,7 +170,7 @@ namespace QoL
 		static void Postfix (ref PlayerManager __instance)
 		{
 				// MelonLogger.Msg("Mouse up (" + (Time.unscaledTime - Inspect.pickingAt));
-			if (KeyboardUtilities.InputManager.GetMouseButtonUp(0))
+			if (KeyboardUtilities.InputManager.GetMouseButtonUp(0) || KeyboardUtilities.InputManager.GetKeyUp(Settings.options.interactKey))
 			{
 				// MelonLogger.Msg("Mouse up (" + (Time.unscaledTime - Inspect.pickingAt));
 				if (Time.unscaledTime - Inspect.pickingAt > Settings.options.fastPickMin && Time.unscaledTime - Inspect.pickingAt < Settings.options.fastPickMax)

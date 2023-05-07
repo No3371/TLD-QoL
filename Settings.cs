@@ -8,7 +8,7 @@ namespace QoL
         [Name("Alternative Back/Cancel")]
         public KeyCode backKey = KeyCode.Mouse3;
         [Name("Alternative Interact Key")]
-        public KeyCode interactKey = KeyCode.F;
+        public KeyCode interactKey = KeyCode.Mouse0;
         [Name("Whole Stack Transfer Modifier Key")]
         public KeyCode stackTransferKey = KeyCode.LeftShift;
 
