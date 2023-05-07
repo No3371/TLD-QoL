@@ -11,6 +11,8 @@ namespace QoL
         public KeyCode interactKey = KeyCode.Mouse0;
         [Name("Whole Stack Transfer Modifier Key")]
         public KeyCode stackTransferKey = KeyCode.LeftShift;
+        [Name("Inventory Item Drop Key")]
+        public KeyCode dropKey = KeyCode.Q;
 
 		[Name("Fast Pickup Holding Time: Min")]
 		[Slider(0.25f, 0.6f)]

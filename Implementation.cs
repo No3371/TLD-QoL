@@ -7,84 +7,75 @@ namespace QoL
 {
 	public class Implementation : MelonMod
 	{
-        public override void OnApplicationStart()
+        public override void OnInitializeMelon()
 		{
 			MelonLogger.Msg($"[{Info.Name}] Version {Info.Version} loaded!");
 			Settings.OnLoad();
 		}
-
-		public static void MaybeGoBack ()
-        {
-            // if (InputManager.GetKeyDown(InputManager.m_CurrentContext, Settings.options.backKey))
-            // {
-            //     Panel_Crafting craftingPanel = InterfaceManager.GetPanel<Panel_Crafting>();
-            //     if (craftingPanel == null || uConsole.IsOn()) return;
-            //     if (craftingPanel.IsEnabled() && !craftingPanel.m_CraftingInProgress)
-            //     {
-            //         craftingPanel.OnBackButton();
-            //         return;
-            //     }
-            //     else
-            //     {
-            //         Panel_FirstAid firstAid = InterfaceManager.GetPanel<Panel_FirstAid>();
-            //         if (firstAid != null && firstAid.IsEnabled())
-            //         {
-            //             firstAid.OnBack();
-            //             return;
-            //         }
-            //         Panel_Clothing clothing = InterfaceManager.GetPanel<Panel_Clothing>();
-            //         if (clothing != null && clothing.IsEnabled())
-            //         {
-            //             clothing.OnCancel();
-            //             return;
-            //         }
-            //         Panel_Inventory inventory = InterfaceManager.GetPanel<Panel_Inventory>();
-            //         if (inventory != null && inventory.IsEnabled())
-            //         {
-            //             inventory.OnBack();
-            //             return;
-            //         }
-            //         Panel_Log journal = InterfaceManager.GetPanel<Panel_Log>();
-            //         if (journal != null && journal.IsEnabled() && journal.m_ReadyForInput)
-            //         {
-            //             journal.OnBack();
-            //             return;
-            //         }
-            //         Panel_Map map = InterfaceManager.GetPanel<Panel_Map>();
-            //         if (map != null && (map.IsEnabled() || !InterfaceManager.IsOverlayActiveImmediate()))
-            //         {
-            //             map.OnCancel();
-            //             return;
-            //         }
-			// 		Panel_Harvest harvest = InterfaceManager.GetPanel<Panel_Harvest>();
-			// 		if (harvest != null && harvest.IsEnabled())
-			// 		{
-			// 			harvest.OnCancel();
-			// 			return;
-			// 		}
-			// 		Panel_Rest rest = InterfaceManager.GetPanel<Panel_Rest>();
-			// 		if (rest != null && rest.IsEnabled())
-			// 		{
-			// 			rest.OnCancel();
-			// 			return;
-			// 		}
-			// 		Panel_Container container = InterfaceManager.GetPanel<Panel_Container>();
-			// 		if (container != null && container.IsEnabled())
-			// 		{
-			// 			container.OnDone();
-			// 			return;
-			// 		}
-            //     }
-            // }
-        }
 	}
 
-	[HarmonyLib.HarmonyPatch(typeof(InputManager), nameof(InputManager.GetInteractPressed))]
+	[HarmonyPatch(typeof(Panel_Inventory), nameof(Panel_Inventory.Update))]
+	internal class QuickDrop
+	{
+		private static void Postfix(ref Panel_Inventory __instance)
+		{
+            if (InputManager.GetKeyDown(InputManager.m_CurrentContext, Settings.options.dropKey))
+			{
+				var gi = __instance.GetCurrentlySelectedGearItem();
+				if (gi.m_CantDropItem) return;
+				__instance.OnDrop();
+            	// if (InputManager.GetKeyDown(InputManager.m_CurrentContext, Settings.options.stackTransferKey))
+				// 	__instance.GetCurrentlySelectedGearItem()?.Drop(__instance.m_NumColumns.GetCurrentlySelectedGearItem().);
+				// else
+				// 	__instance.GetCurrentlySelectedGearItem()?.Drop(1);
+			}
+		}
+	}
+
+	[HarmonyPatch(typeof(Panel_PickUnits), nameof(Panel_PickUnits.OnIncrease))]
+	internal class BulkIncreaseUnits
+	{
+		static int count = 0;
+		private static void Postfix(ref Panel_PickUnits __instance)
+		{
+			// MelonLogger.Msg(__instance.m_numUnits + "/" + __instance.m_maxUnits);
+            // if (KeyboardUtilities.InputManager.GetKey(Settings.options.stackTransferKey))
+			// {
+			// 	__instance.m_numUnits += 4;
+			// 	__instance.m_numUnits = Math.Min(__instance.m_maxUnits, __instance.m_numUnits);
+			// }
+			// This doesn't really work, so let's go rude.
+			if (count++ == 4) count = 0;
+			else 
+				__instance.OnIncrease();
+		}
+	}
+
+	[HarmonyPatch(typeof(Panel_PickUnits), nameof(Panel_PickUnits.OnDecrease))]
+	internal class BulkDecreaseUnits
+	{
+		static int count = 0;
+		private static void Postfix(ref Panel_PickUnits __instance)
+		{
+			// MelonLogger.Msg(__instance.m_numUnits + "/" + __instance.m_maxUnits);
+            // if (KeyboardUtilities.InputManager.GetKey(Settings.options.stackTransferKey))
+			// {
+			// 	__instance.m_numUnits -= 4;
+			// 	__instance.m_numUnits = Math.Max(0, __instance.m_numUnits);
+			// }
+			// This doesn't really work, so let's go rude.
+			if (count++ == 4) count = 0;
+			else 
+				__instance.OnDecrease();
+		}
+	}
+
+	[HarmonyPatch(typeof(InputManager), nameof(InputManager.GetInteractPressed))]
 	internal class AlternativeInteract
 	{
 		private static bool Postfix(bool __result)
 		{
-            if (!__result && InputManager.GetKeyDown(InputManager.m_CurrentContext, Settings.options.interactKey))
+            if (!__result && KeyboardUtilities.InputManager.GetKeyDown(Settings.options.interactKey))
 			{
 				__result = true;
 			}
@@ -93,7 +84,7 @@ namespace QoL
 		}
 	}
 
-	[HarmonyLib.HarmonyPatch(typeof(InputManager), nameof(InputManager.GetPutBackPressed))]
+	[HarmonyPatch(typeof(InputManager), nameof(InputManager.GetPutBackPressed))]
 	internal class AlternativePutBack
 	{
 		private static bool Postfix(bool __result)
@@ -107,7 +98,7 @@ namespace QoL
 		}
 	}
 
-	[HarmonyLib.HarmonyPatch(typeof(InputManager), nameof(InputManager.GetEscapePressed))]
+	[HarmonyPatch(typeof(InputManager), nameof(InputManager.GetEscapePressed))]
 	internal class AlternativeEscape
 	{
 		private static bool Postfix(bool __result)
@@ -122,8 +113,8 @@ namespace QoL
 	}
 
 	
-	[HarmonyLib.HarmonyPatch(typeof(Panel_PickUnits), nameof(Panel_PickUnits.SetGearForTransferToInventory))]
-	internal class CToI
+	[HarmonyPatch(typeof(Panel_PickUnits), nameof(Panel_PickUnits.SetGearForTransferToInventory))]
+	internal class PickUnitsToInventory
 	{
 		static void Postfix (ref Panel_PickUnits __instance) {
 			if (KeyboardUtilities.InputManager.GetKey(Settings.options.stackTransferKey))
@@ -134,8 +125,8 @@ namespace QoL
 		}
 	}
 
-	[HarmonyLib.HarmonyPatch(typeof(Panel_PickUnits), nameof(Panel_PickUnits.SetGearForTransferToContainer))]
-	internal class IToC
+	[HarmonyPatch(typeof(Panel_PickUnits), nameof(Panel_PickUnits.SetGearForTransferToContainer))]
+	internal class PickUnitsToContainer
 	{
 		static void Postfix (ref Panel_PickUnits __instance) {
 			if (KeyboardUtilities.InputManager.GetKey(Settings.options.stackTransferKey))
@@ -146,25 +137,19 @@ namespace QoL
 		}
 	}
 
-	// [HarmonyLib.HarmonyPatch(typeof(GameManager), nameof(GameManager.Update))]
-	// internal class InPick
-	// {
-		
-	// 	private static bool Postfix()
-	// 	{
-	// 		if (KeyboardUtilities.InputManager.GetMouseButtonUp(0))
-	// 			if (Time.unscaledTime - PrePick.pickingAt > 0.35f)
-	// 			{
-	// 				Debug.Log("BINGO");
-	// 				PlayerManager.
-	// 				GameObject objectUnderCrosshair = __instance.GetInteractiveObjectUnderCrosshairs(20f);
-	// 				GameManager.GetPlayerManagerComponent().ProcessPickupItemInteraction(objectUnderCrosshair.GetComponent<GearItem>(), false, false, false);
-	// 					return false;
-	// 			}
-	// 	}
-	// }
+	[HarmonyPatch(typeof(Panel_PickUnits), nameof(Panel_PickUnits.SetGearForDrop))]
+	internal class PickUnitsToDrop
+	{
+		static void Postfix (ref Panel_PickUnits __instance) {
+			if (KeyboardUtilities.InputManager.GetKey(Settings.options.stackTransferKey))
+			{
+				__instance.OnExecuteAll();
+			}
 
-	[HarmonyLib.HarmonyPatch(typeof(PlayerManager), nameof(PlayerManager.UpdateInspectGear))]
+		}
+	}
+
+	[HarmonyPatch(typeof(PlayerManager), nameof(PlayerManager.UpdateInspectGear))]
 	internal class TryPick
 	{
 		static void Postfix (ref PlayerManager __instance)
@@ -184,7 +169,7 @@ namespace QoL
 		}
 	}
 
-	[HarmonyLib.HarmonyPatch(typeof(PlayerManager), nameof(PlayerManager.EnterInspectGearMode), new Type[] { typeof(GearItem), typeof(Container), typeof(IceFishingHole), typeof(Harvestable), typeof(CookingPotItem) } )]
+	[HarmonyPatch(typeof(PlayerManager), nameof(PlayerManager.EnterInspectGearMode), new Type[] { typeof(GearItem), typeof(Container), typeof(IceFishingHole), typeof(Harvestable), typeof(CookingPotItem) } )]
 	internal class Inspect
 	{
 		public static float pickingAt;
@@ -194,66 +179,4 @@ namespace QoL
 		}
 	}
 
-	// [HarmonyLib.HarmonyPatch(typeof(PlayerManager), nameof(PlayerManager.UpdateActiveInteraction))]
-	// internal class TryPick
-	// {
-	// 	static void PostFix (ref PlayerManager __instance)
-	// 	{
-	// 		if (KeyboardUtilities.InputManager.GetKeyUp(KeyCode.Mouse0))
-	// 			if (Time.unscaledTime - PrePick.pickingAt > 0.35f)
-	// 			{
-	// 				Debug.Log("BINGO");
-	// 				if (__instance.ActiveInteraction != null && __instance.GearItemBeingInspected() != null)
-	// 				{
-	// 					__instance.ProcessPickupItemInteraction(__instance.GearItemBeingInspected(), false, false, false);
-	// 					__instance.ExitInspectGearMode(false);
-	// 				}
-					
-	// 			}
-	// 	}
-	// // }
-
-	// static class Inspect
-	// {
-	// 	public static float pickingAt;
-	// }
-
-	// [HarmonyLib.HarmonyPatch(typeof(PlayerManager), nameof(PlayerManager.EnterInspectGearMode), new Type[] { typeof(GearItem) })]
-	// internal class InspectEIGM
-	// {
-	// 	static void Postfix()
-	// 	{
-	// 		MelonLogger.Msg("EIGM Inspecting...(");
-	// 		Inspect.pickingAt = Time.unscaledTime;
-	// 	}
-	// }
-
-	// [HarmonyLib.HarmonyPatch(typeof(PlayerManager), nameof(PlayerManager.EnterInspectGearModeWithCallback))]
-	// internal class InspectEIGMWC
-	// {
-	// 	static void Postfix()
-	// 	{
-	// 		MelonLogger.Msg("EIGMWC Inspecting...(");
-	// 		Inspect.pickingAt = Time.unscaledTime;
-	// 	}
-	// }
-
-	// // [HarmonyLib.HarmonyPatch(typeof(InspectGearController), nameof(InspectGearController.SetGearItem))]
-	// // internal class GI
-	// // {
-	// // 	static void Postfix(GearItem gi)
-	// // 	{
-	// // 		MelonLogger.Msg("Inspect Gear...( " + gi.name);
-	// // 	}
-	// // }
-
-	// [HarmonyLib.HarmonyPatch(typeof(GearItem), nameof(GearItem.PerformInteraction))]
-	// internal class Inspect
-	// {
-	// 	public static float pickingAt;
-	// 	static void Postfix()
-	// 	{
-	// 		Inspect.pickingAt = Time.unscaledTime;
-	// 	}
-	// }
 }
