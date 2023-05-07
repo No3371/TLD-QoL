@@ -19,6 +19,6 @@ This is a QoL mod for The Long Dark.
     - Explanation: Instead of click a item to inspect then click to "Take It", press and hold for 0.3~1 seconds to perform "Take It".
     - The triggering duration can be configured.
 - **QuickDrop**: Press a key to drop items from inventory.
-    - Default is Q. 
-    - If the stack is big enough to trigger the PickUnits UI, the StackTransfer Key works too.
+    - Default is Q.
+    - If the stack is big enough to trigger the PickUnits UI, holding the StackTransfer Key will drop the whole stack.
 - **BuikPickUnits**: Hold the StackTransfer Key to increase/decrease the units by 5.
