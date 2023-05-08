@@ -96,4 +96,7 @@
         </Reference>
         <Reference Include="KeyboardUtilities" />
     </ItemGroup>
+    <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+        <Exec Command="xcopy /y /d  &quot;$(TargetPath)&quot; &quot;$(TheLongDarkPath)\Mods&quot;" />
+      </Target>
 </Project>
