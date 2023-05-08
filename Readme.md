@@ -7,8 +7,8 @@ This is a QoL mod for The Long Dark.
 - [KeyboardUtilites by ds8678](https://github.com/ds5678/KeyboardUtilities)
 
 ## Note
-The mod tries best to invoke the UI if possible, this is the safer way.
-However some features may act weird for the first you trigger them per game session, because the mod tries to call the UI before it's ready.
+The mod tries best to invoke the UI if possible, this is the safer way.  
+However some features may act weird for the first time you trigger them every game session, because the mod tries to use the UI's function before it's ready.
 
 **Known issues**
 - First StackTransfer may force container UI to close.
