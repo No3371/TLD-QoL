@@ -1,4 +1,5 @@
-﻿using HarmonyLib;
+﻿using System.Collections;
+using HarmonyLib;
 using Il2Cpp;
 using MelonLoader;
 using UnityEngine;
@@ -7,16 +8,60 @@ namespace QoL
 {
 	public class Implementation : MelonMod
 	{
+		public static float lastStackTransferDown = 0, lastStackTransferUp = 1;
+		public static bool StackTransferHolding => lastStackTransferDown > lastStackTransferUp;
         public override void OnInitializeMelon()
 		{
 			MelonLogger.Msg($"[{Info.Name}] Version {Info.Version} loaded!");
 			Settings.OnLoad();
+		}
+
+        public override void OnUpdate()
+        {
+            base.OnUpdate();
+			if (KeyboardUtilities.InputManager.GetKeyDown(Settings.options.stackTransferKey))
+				lastStackTransferDown = Time.unscaledTime;
+			if (KeyboardUtilities.InputManager.GetKeyUp(Settings.options.stackTransferKey))
+				lastStackTransferUp = Time.unscaledTime;
+        }
+    }
+
+	[HarmonyPatch(typeof(Panel_GearSelect), nameof(Panel_GearSelect.Update))]
+	internal class GearSelectADScroll
+	{
+		private static void Postfix(ref Panel_GearSelect __instance)
+		{
+            if (InputManager.GetKeyDown(InputManager.m_CurrentContext, KeyCode.A) || InputManager.GetScroll(InputManager.m_CurrentContext) > 0)
+			{
+				__instance.PreviousGear();
+			}
+            if (InputManager.GetKeyDown(InputManager.m_CurrentContext, KeyCode.D) || InputManager.GetScroll(InputManager.m_CurrentContext) < 0)
+			{
+				__instance.NextGear();
+			}
+		}
+	}
+
+	[HarmonyPatch(typeof(Panel_Inventory), nameof(Panel_Inventory.Update))]
+	internal class QuickPlace
+	{
+		private static void Postfix(ref Panel_Inventory __instance)
+		{
+            if (InputManager.GetKeyDown(InputManager.m_CurrentContext, Settings.options.dropKey) && KeyboardUtilities.InputManager.GetKey(Settings.options.placeModifier) && !KeyboardUtilities.InputManager.GetKey(Settings.options.stackTransferKey))
+			{
+				var gi = __instance.GetCurrentlySelectedGearItem();
+				if (gi.m_CantDropItem) return;
+				var singleGI = gi.Drop(1);
+				__instance.OnBack();
+				singleGI.TryStartPlaceMeshInteraction();
+			}
 		}
 	}
 
 	[HarmonyPatch(typeof(Panel_Inventory), nameof(Panel_Inventory.Update))]
 	internal class QuickDrop
 	{
+		static bool warned;
 		private static void Postfix(ref Panel_Inventory __instance)
 		{
             if (InputManager.GetKeyDown(InputManager.m_CurrentContext, Settings.options.dropKey))
@@ -28,7 +73,19 @@ namespace QoL
 				// 	__instance.GetCurrentlySelectedGearItem()?.Drop(__instance.m_NumColumns.GetCurrentlySelectedGearItem().);
 				// else
 				// 	__instance.GetCurrentlySelectedGearItem()?.Drop(1);
+				if (!warned)
+				{
+					warned = true;
+					MelonCoroutines.Start(Warning());
+				}
 			}
+		}
+
+		static IEnumerator Warning ()
+		{
+			InterfaceManager.GetPanel<Panel_HUD>().DisplayWarningMessage("QoL: First trigger, if stuck, press Tab (or your status key) to reset");
+			yield return new WaitForSeconds(5);
+			InterfaceManager.GetPanel<Panel_HUD>().ClearWarningMessage();
 		}
 	}
 
@@ -45,6 +102,7 @@ namespace QoL
 			// 	__instance.m_numUnits = Math.Min(__instance.m_maxUnits, __instance.m_numUnits);
 			// }
 			// This doesn't really work, so let's go rude.
+			if (!KeyboardUtilities.InputManager.GetKey(Settings.options.stackTransferKey)) return;
 			if (count++ == 4) count = 0;
 			else 
 				__instance.OnIncrease();
@@ -64,6 +122,7 @@ namespace QoL
 			// 	__instance.m_numUnits = Math.Max(0, __instance.m_numUnits);
 			// }
 			// This doesn't really work, so let's go rude.
+			if (!KeyboardUtilities.InputManager.GetKey(Settings.options.stackTransferKey)) return;
 			if (count++ == 4) count = 0;
 			else 
 				__instance.OnDecrease();
@@ -114,11 +173,12 @@ namespace QoL
 
 	
 	[HarmonyPatch(typeof(Panel_PickUnits), nameof(Panel_PickUnits.SetGearForTransferToInventory))]
-	internal class PickUnitsToInventory
+	internal class StackTransfer
 	{
 		static void Postfix (ref Panel_PickUnits __instance) {
-			if (KeyboardUtilities.InputManager.GetKey(Settings.options.stackTransferKey))
+			if (Implementation.StackTransferHolding)
 			{
+				__instance.Update();
 				__instance.OnExecuteAll();
 			}
 
@@ -129,7 +189,7 @@ namespace QoL
 	internal class PickUnitsToContainer
 	{
 		static void Postfix (ref Panel_PickUnits __instance) {
-			if (KeyboardUtilities.InputManager.GetKey(Settings.options.stackTransferKey))
+			if (Implementation.StackTransferHolding)
 			{
 				__instance.OnExecuteAll();
 			}
@@ -140,12 +200,26 @@ namespace QoL
 	[HarmonyPatch(typeof(Panel_PickUnits), nameof(Panel_PickUnits.SetGearForDrop))]
 	internal class PickUnitsToDrop
 	{
-		static void Postfix (ref Panel_PickUnits __instance) {
-			if (KeyboardUtilities.InputManager.GetKey(Settings.options.stackTransferKey))
+		static bool warned;
+		static void Postfix (ref Panel_PickUnits __instance)
+		{
+			if (Implementation.StackTransferHolding)
 			{
+				__instance.Update();
 				__instance.OnExecuteAll();
 			}
+			if (!warned)
+			{
+				warned = true;
+                MelonCoroutines.Start(Warning());
+			}
+		}
 
+		static IEnumerator Warning ()
+		{
+			InterfaceManager.GetPanel<Panel_HUD>().DisplayWarningMessage("QoL: First trigger, if stuck, press Tab (or your status key) to reset");
+			yield return new WaitForSeconds(5);
+			InterfaceManager.GetPanel<Panel_HUD>().ClearWarningMessage();
 		}
 	}
 
@@ -178,5 +252,4 @@ namespace QoL
 			Inspect.pickingAt = Time.unscaledTime;
 		}
 	}
-
 }
