@@ -73,19 +73,7 @@ namespace QoL
 				// 	__instance.GetCurrentlySelectedGearItem()?.Drop(__instance.m_NumColumns.GetCurrentlySelectedGearItem().);
 				// else
 				// 	__instance.GetCurrentlySelectedGearItem()?.Drop(1);
-				if (!warned)
-				{
-					warned = true;
-					MelonCoroutines.Start(Warning());
-				}
 			}
-		}
-
-		static IEnumerator Warning ()
-		{
-			InterfaceManager.GetPanel<Panel_HUD>().DisplayWarningMessage("QoL: First trigger, if stuck, press Tab (or your status key) to reset");
-			yield return new WaitForSeconds(5);
-			InterfaceManager.GetPanel<Panel_HUD>().ClearWarningMessage();
 		}
 	}
 
@@ -205,13 +193,12 @@ namespace QoL
 		{
 			if (Implementation.StackTransferHolding)
 			{
-				__instance.Update();
 				__instance.OnExecuteAll();
-			}
-			if (!warned)
-			{
-				warned = true;
-                MelonCoroutines.Start(Warning());
+				if (!warned)
+				{
+					warned = true;
+					MelonCoroutines.Start(Warning());
+				}
 			}
 		}
 
