@@ -13,7 +13,7 @@ However some features may act weird for the first time you trigger them every ga
 **Known issues**
 - First StackTransfer may force container UI to close.
 - First QuickDrop in which the item stack is big enough to ask you how many to drop may force the inventory UI to close and lock the control. Press TAB (Check Status key) to reset.
-- Probably the comined result of the above 2, using QuickDrop may open the last container once. Not sure exactly when to happen.
+- Probably the comined result of the above 2, using QuickDrop/StackTransfer may bring you to other interface once.
 
 ## Features
 
