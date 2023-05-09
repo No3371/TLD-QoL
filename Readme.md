@@ -1,5 +1,7 @@
 # TLD-QoL
 
+(Bugged releases removed for now, releasing new soon)
+
 This is a QoL mod for The Long Dark.
 
 ## Dependencies
