@@ -10,7 +10,7 @@ namespace QoL
         public KeyCode backKey = KeyCode.Mouse3;
         [Name("Alternative Interact Key")]
 		[Description("Work as Interact(the default LMB) in most scenarios, and can act as confirm button in a lot of UIs.")]
-        public KeyCode interactKey = KeyCode.Mouse0;
+        public KeyCode interactKey = KeyCode.Insert;
         [Name("Bulk Key")]
 		[Description("Hold this when transfering item between the inventory and containers to transfer the whole stack. Also works for QuickDrop.")]
         public KeyCode bulkKey = KeyCode.LeftShift;
@@ -30,6 +30,11 @@ namespace QoL
 		[Description("FastPick won't be triggered if you hold Interact for longer than this")]
 		[Slider(0.8f, 2f)]
 		public float fastPickMax = 1f;
+
+		[Name("Stop Reseting Alternative Interact Key")]
+		[Description("The default is LMB before 1.3.2 which will cause issues")]
+
+		public bool stopResetAlternativeInteract;
 	}
 	internal static class Settings
 	{
