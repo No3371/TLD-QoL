@@ -61,7 +61,7 @@ namespace QoL
 			}
 			if (InputManager.GetKeyDown(InputManager.m_CurrentContext, KeyCode.A)
 			 && KeyboardUtilities.InputManager.GetKey(Settings.options.modifierKey)
-			 && __instance.m_SleepButton.active)
+			 && __instance.m_PassTimeButtonObject.active)
 			{
 				__instance.OnSelectRest();
 				return;
@@ -69,7 +69,7 @@ namespace QoL
 	
 			else if (InputManager.GetKeyDown(InputManager.m_CurrentContext, KeyCode.D)
 			 && KeyboardUtilities.InputManager.GetKey(Settings.options.modifierKey)
-			 && __instance.m_PassTimeButtonObject.active)
+			 && __instance.m_SleepButton.active)
 			{
 				__instance.OnSelectPassTime();
 				return;
