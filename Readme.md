@@ -2,6 +2,8 @@
 
 This is a QoL mod for The Long Dark.
 
+Reduce UI frustration, even make it pleasant to use. You can now use keyboard most of the time to control your game.
+
 ## Dependencies
 
 - [KeyboardUtilites by ds8678](https://github.com/ds5678/KeyboardUtilities)
