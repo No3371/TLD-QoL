@@ -9,7 +9,6 @@ namespace QoL
 	public class Implementation : MelonMod
 	{
 		public static float lastBulkDown = 0, lastBulkUp = 1;
-		public static bool HoldingBulkKey => lastBulkDown > lastBulkUp;
         public override void OnInitializeMelon()
 		{
 			MelonLogger.Msg($"[{Info.Name}] Version {Info.Version} loaded!");
@@ -20,15 +19,6 @@ namespace QoL
 				Settings.options.interactKey = KeyCode.Insert;
 			}
 		}
-
-        public override void OnUpdate()
-        {
-			if (KeyboardUtilities.InputManager.GetKeyDown(Settings.options.bulkKey))
-				lastBulkDown = Time.unscaledTime;
-			else if (KeyboardUtilities.InputManager.GetKeyUp(Settings.options.bulkKey))
-				lastBulkUp = Time.unscaledTime;
-            base.OnUpdate();
-        }
     }
 
 	[HarmonyPatch(typeof(Panel_GearSelect), nameof(Panel_GearSelect.Update))]
@@ -565,7 +555,7 @@ namespace QoL
 				else if (CraftingUILocator.UIComp.m_QuantitySelect.enabled)
 				{
 					CraftingUILocator.UIComp.m_QuantitySelect.OnDecrease();
-					if (Implementation.HoldingBulkKey)
+					if (KeyboardUtilities.InputManager.GetKey(Settings.options.bulkKey))
 					{
 						CraftingUILocator.UIComp.m_QuantitySelect.OnDecrease();CraftingUILocator.UIComp.m_QuantitySelect.OnDecrease();CraftingUILocator.UIComp.m_QuantitySelect.OnDecrease();CraftingUILocator.UIComp.m_QuantitySelect.OnDecrease();
 					}
@@ -581,7 +571,7 @@ namespace QoL
 				else if (CraftingUILocator.UIComp.m_QuantitySelect.enabled)
 				{
 					CraftingUILocator.UIComp.m_QuantitySelect.OnIncrease();
-					if (Implementation.HoldingBulkKey)
+					if (KeyboardUtilities.InputManager.GetKey(Settings.options.bulkKey))
 					{
 						CraftingUILocator.UIComp.m_QuantitySelect.OnIncrease();CraftingUILocator.UIComp.m_QuantitySelect.OnIncrease();CraftingUILocator.UIComp.m_QuantitySelect.OnIncrease();CraftingUILocator.UIComp.m_QuantitySelect.OnIncrease();
 					}
@@ -828,7 +818,7 @@ namespace QoL
 		internal static bool warned;
 		static void Postfix (ref Panel_PickUnits __instance)
 		{
-			if (Implementation.HoldingBulkKey)
+			if (KeyboardUtilities.InputManager.GetKey(Settings.options.bulkKey))
 			{
 				__instance.OnExecuteAll();
 				if (!warned)
@@ -873,10 +863,8 @@ namespace QoL
 	{
 		static void Postfix (ref Panel_PickUnits __instance)
 		{
-			if (Implementation.HoldingBulkKey)
+			if (KeyboardUtilities.InputManager.GetKey(Settings.options.bulkKey))
 			{
-				__instance.OnAll();
-				__instance.Refresh();
 				__instance.OnExecuteAll();
 				if (!PickUnitsToInventory.warned)
 				{
@@ -894,7 +882,7 @@ namespace QoL
 		static bool warned;
 		static void Postfix (ref Panel_PickUnits __instance)
 		{
-			if (Implementation.HoldingBulkKey)
+			if (KeyboardUtilities.InputManager.GetKey(Settings.options.bulkKey))
 			{
 				__instance.OnExecuteAll();
 				if (!warned)
