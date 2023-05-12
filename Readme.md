@@ -9,13 +9,13 @@ Reduce UI frustration, even make it pleasant to use. You can now use keyboard mo
 - [KeyboardUtilites by ds8678](https://github.com/ds5678/KeyboardUtilities)
 
 ## Note
-The mod tries best to invoke the UI if possible, this is the safer way.  
-However some features may act weird for the first time you trigger them every game session, because the mod tries to use the UI's function before it's ready.
+The mod just trigger the UI whenever possible, this is the safer way.  
+However some features may act weird for the first time you trigger them every game session, because the mod tries to use the UI before it's ready, a good example is the StackTransfer&QuickPlace, they work by instantly "click" the All button.
 
 **Known issues**
 - First Stack Transfer may force container UI to close.
 - First QuickDrop in which the item stack is big enough to ask you how many to drop may force the inventory UI to close and lock the control. Press TAB (Check Status key) to reset.
-- Probably the comined result of the above 2, using QuickDrop/StackTransfer may bring you to previous container once. Not sure exactly when to happen.
+- Probably the comined result of the above 2, using QuickDrop/StackTransfer may bring you to previous interface once. Not sure exactly when to happen.
 - 1.3.2+ will reset your **AlternativeInteract** key util you turn on the Reset toggle in the settings, this is to prevent users updating from previous versions from being surprised by new features.
 
 ## Features
@@ -65,7 +65,10 @@ However some features may act weird for the first time you trigger them every ga
         - A/D to switch between filters
 - **QuickDoubleClickInventoryItem**: Press the **AlternativeInteract** key to simulate double click in inventory/containers.
 
-https://github.com/No3371/TLD-QoL/assets/1814971/92e50a92-107f-407c-ae1d-1501f15fa865  
+https://github.com/No3371/TLD-QoL/assets/1814971/92e50a92-107f-407c-ae1d-1501f15fa865
+
+*(Switching categories, selecting item, examining, repairing, all without the mouse)*
+
 - **QuickExamine**:
     - Hold **Modifier** key and press the **AlternativeInteract** key to examine item (like clicking `Actions` button)
 - **AlternativeInteractConfirmation**
