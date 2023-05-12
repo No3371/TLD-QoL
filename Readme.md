@@ -64,6 +64,8 @@ However some features may act weird for the first time you trigger them every ga
         - W/S to switch between item categories
         - A/D to switch between filters
 - **QuickDoubleClickInventoryItem**: Press the **AlternativeInteract** key to simulate double click in inventory/containers.
+
+https://github.com/No3371/TLD-QoL/assets/1814971/92e50a92-107f-407c-ae1d-1501f15fa865  
 - **QuickExamine**:
     - Hold **Modifier** key and press the **AlternativeInteract** key to examine item (like clicking `Actions` button)
 - **AlternativeInteractConfirmation**
