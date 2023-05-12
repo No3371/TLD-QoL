@@ -9,8 +9,8 @@ Reduce UI frustration, even make it pleasant to use. You can now use keyboard mo
 - [KeyboardUtilites by ds8678](https://github.com/ds5678/KeyboardUtilities)
 
 ## Note
-The mod just trigger the UI whenever possible, this is the safer way.  
-However some features may act weird for the first time you trigger them every game session, because the mod tries to use the UI before it's ready, a good example is the StackTransfer&QuickPlace, they work by instantly "click" the All button.
+The mod just triggers the UI whenever possible, this is the safer way.  
+However some features may act weird for the first time you trigger them every game session, because the mod tries to use the UI before it's ready, a good example is the StackTransfer&QuickPlace, they work by instantly "click" the All button when it opens.
 
 **Known issues**
 - First Stack Transfer may force container UI to close.
