@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using HarmonyLib;
 using Il2Cpp;
 using MelonLoader;
@@ -493,6 +493,7 @@ namespace QoL
 	{
 		private static void Postfix(ref Panel_Crafting __instance)
 		{
+			if (__instance.m_CraftingInProgress) return;
 			if (InputManager.GetKeyDown(InputManager.m_CurrentContext, Settings.options.interactKey))
 			{
 				__instance.OnBeginCrafting();
