@@ -53,11 +53,11 @@ Reduce UI frustration, even make it pleasant to use. You can now use keyboard mo
 - **W/S Selection**
     - When selecting actions in Examine menu: repair, clean, harvest, etc.
 - **QuickInventoryNavigation**: Hold the **Modifer** key and press
-        - W/S to switch between item categories
-            - Also works in crafting menu
-            - There's a not-a-bug issue that after the first time you use this feature, it remember where you were but shows the first category when you open the UI next time
-                - This feature use 100% official index value but somehow it seems unused (so it's not set to the first button when you open the Inventory/Crafting). At the moment there is no plan to "fix" this
-        - A/D to switch between filters
+    - W/S to switch between item categories
+        - Also works in crafting menu
+        - There's a not-a-bug issue that after the first time you use this feature, it remember where you were but shows the first category when you open the UI next time
+            - This feature use 100% official index value but somehow it seems unused (so it's not set to the first button when you open the Inventory/Crafting). At the moment there is no plan to "fix" this
+    - A/D to switch between filters
 - **QuickDoubleClickInventoryItem**: Press the **AlternativeInteract** key to simulate double click in inventory/containers.
 
 https://github.com/No3371/TLD-QoL/assets/1814971/92e50a92-107f-407c-ae1d-1501f15fa865
