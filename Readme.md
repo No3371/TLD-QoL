@@ -8,7 +8,7 @@ Reduce UI frustration, even make it pleasant to use. You can now use keyboard mo
 
 - [KeyboardUtilites by ds8678](https://github.com/ds5678/KeyboardUtilities)
 
-## Known issues**
+## Known issues
 
 - 1.3.2+ will reset your **AlternativeInteract** key util you turn on the Reset toggle in the settings, this is to prevent users updating from previous versions from being surprised by new features.
 
@@ -18,7 +18,6 @@ Reduce UI frustration, even make it pleasant to use. You can now use keyboard mo
 - **Alternative Interact button**: Alternative to LeftMouseButton.
     - Default is Insert, which is intended to be changed to your preference so you don't accidentally touch it.
     - (My personal preference is F, this enables me to effortlessly control UI without moving my left hand most of the time. And my Status is moved to H, Put Away moved to Mouse4)
-
 - **Stack Transfer**: Skip the PickUnits UI, transfer a whole stack of items between the inventory and containers by holding the **Bulk** key.
     - Default is LeftShift.
     - ![](https://imgur.com/fpqn05t.gif)
@@ -55,6 +54,9 @@ Reduce UI frustration, even make it pleasant to use. You can now use keyboard mo
     - When selecting actions in Examine menu: repair, clean, harvest, etc.
 - **QuickInventoryNavigation**: Hold the **Modifer** key and press
         - W/S to switch between item categories
+            - Also works in crafting menu
+            - There's a not-a-bug issue that after the first time you use this feature, it remember where you were but shows the first category when you open the UI next time
+                - This feature use 100% official index value but somehow it seems unused (so it's not set to the first button when you open the Inventory/Crafting). At the moment there is no plan to "fix" this
         - A/D to switch between filters
 - **QuickDoubleClickInventoryItem**: Press the **AlternativeInteract** key to simulate double click in inventory/containers.
 
