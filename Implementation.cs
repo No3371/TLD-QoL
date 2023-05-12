@@ -423,7 +423,7 @@ namespace QoL
 	{
 		private static void Postfix(ref Panel_Inventory_Examine __instance)
 		{
-			if (__instance.IsCleaning() || __instance.IsHarvesting() ||__instance.IsReading() || __instance.IsSharpening() || __instance.IsSharpening())
+			if (__instance.IsCleaning() || __instance.IsRepairing() || __instance.IsHarvesting() ||__instance.IsReading() || __instance.IsSharpening() || __instance.IsSharpening())
 				return;
 			if (InputManager.GetKeyDown(InputManager.m_CurrentContext, Settings.options.interactKey))
 			{			
