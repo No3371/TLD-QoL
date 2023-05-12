@@ -423,6 +423,8 @@ namespace QoL
 	{
 		private static void Postfix(ref Panel_Inventory_Examine __instance)
 		{
+			if (__instance.IsCleaning() || __instance.IsHarvesting() ||__instance.IsReading() || __instance.IsSharpening() || __instance.IsSharpening())
+				return;
 			if (InputManager.GetKeyDown(InputManager.m_CurrentContext, Settings.options.interactKey))
 			{			
 				if (__instance.m_MenuItemHarvest != null && __instance.m_MenuItemHarvest.m_Selected)
