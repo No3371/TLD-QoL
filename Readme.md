@@ -16,14 +16,15 @@ However some features may act weird for the first time you trigger them every ga
 - First Stack Transfer may force container UI to close.
 - First QuickDrop in which the item stack is big enough to ask you how many to drop may force the inventory UI to close and lock the control. Press TAB (Check Status key) to reset.
 - Probably the comined result of the above 2, using QuickDrop/StackTransfer may bring you to previous container once. Not sure exactly when to happen.
+- 1.3.2+ will reset your **AlternativeInteract** key util you turn on the Reset toggle in the settings, this is to prevent users updating from previous versions from being surprised by new features.
 
 ## Features
 
 ### Keys
 - **Alternative Back button**: Alternative to ESC. Default is Mouse3.
 - **Alternative Interact button**: Alternative to LeftMouseButton.
-    - Default is Insert, which is intended so you don't accidentally touch it.
-    - (My personal preference is F with Status moved to H, Put Away moved to Mouse4, HIGHLY recommended)
+    - Default is Insert, which is intended to be changed to your preference so you don't accidentally touch it.
+    - (My personal preference is F, this enables me to effortlessly control UI without moving my left hand most of the time. And my Status is moved to H, Put Away moved to Mouse4)
 
 - **Stack Transfer**: Skip the PickUnits UI, transfer a whole stack of items between the inventory and containers by holding the **Bulk** key.
     - Default is LeftShift.
@@ -63,6 +64,8 @@ However some features may act weird for the first time you trigger them every ga
         - W/S to switch between item categories
         - A/D to switch between filters
 - **QuickDoubleClickInventoryItem**: Press the **AlternativeInteract** key to simulate double click in inventory/containers.
+
+https://github.com/No3371/TLD-QoL/assets/1814971/92e50a92-107f-407c-ae1d-1501f15fa865  
 - **QuickExamine**:
     - Hold **Modifier** key and press the **AlternativeInteract** key to examine item (like clicking `Actions` button)
 - **AlternativeInteractConfirmation**
