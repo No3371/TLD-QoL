@@ -8,19 +8,12 @@ Reduce UI frustration, even make it pleasant to use. You can now use keyboard mo
 
 - [KeyboardUtilites by ds8678](https://github.com/ds5678/KeyboardUtilities)
 
-## Note
-The mod just triggers the UI whenever possible, this is the safer way.  
-However some features may act weird for the first time you trigger them every game session, because the mod tries to use the UI before it's ready, a good example is the StackTransfer&QuickPlace, they work by instantly "click" the All button when it opens.
+## Known issues**
 
-**Known issues**
-- First Stack Transfer may force container UI to close.
-- First QuickDrop in which the item stack is big enough to ask you how many to drop may force the inventory UI to close and lock the control. Press TAB (Check Status key) to reset.
-- Probably the comined result of the above 2, using QuickDrop/StackTransfer may bring you to previous interface once. Not sure exactly when to happen.
 - 1.3.2+ will reset your **AlternativeInteract** key util you turn on the Reset toggle in the settings, this is to prevent users updating from previous versions from being surprised by new features.
 
 ## Features
 
-### Keys
 - **Alternative Back button**: Alternative to ESC. Default is Mouse3.
 - **Alternative Interact button**: Alternative to LeftMouseButton.
     - Default is Insert, which is intended to be changed to your preference so you don't accidentally touch it.

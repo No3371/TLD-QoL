@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using HarmonyLib;
 using Il2Cpp;
 using MelonLoader;
@@ -132,16 +132,14 @@ namespace QoL
 				__instance.OnHarvest();
 				return;
 			}
-            if (InputManager.GetScroll(InputManager.m_CurrentContext) > 0)
-			{
+
+            float v = InputManager.GetScroll(InputManager.m_CurrentContext);
+            if (v > 0)
 				__instance.OnToolPrev();
-			}
             else if (InputManager.GetScroll(InputManager.m_CurrentContext) < 0)
-			{
 				__instance.OnToolNext();
 			}
 		}
-	}
 
 	[HarmonyPatch(typeof(Panel_FireStart), nameof(Panel_FireStart.Update))]
 	internal class AlternativeStartFire
@@ -215,19 +213,6 @@ namespace QoL
 					__instance.OnBoil();
 				else
 					__instance.OnCook();
-			}
-		}
-	}
-
-
-	[HarmonyPatch(typeof(Panel_PickUnits), nameof(Panel_PickUnits.Update))]
-	internal class AlternativeConfirmUnits
-	{
-		private static void Postfix(ref Panel_PickUnits __instance)
-		{
-			if (InputManager.GetKeyDown(InputManager.m_CurrentContext, Settings.options.interactKey))
-			{
-				__instance.OnExecute();
 			}
 		}
 	}
@@ -798,63 +783,30 @@ namespace QoL
 		}
 	}
 
-	// [HarmonyPatch(typeof(DragDropContainer), nameof(DragDropContainer.OnDragOut))]
-	// internal class DragDropContainerOnDragOutPatch
-	// {
-	// 	private static void Prefix () => MelonLogger.Msg("Pre- OnDragOut");
-	// 	private static void Postfix() => MelonLogger.Msg("Post- OnDragOut");
-	// }
-
-	// [HarmonyPatch(typeof(DragDropContainer), nameof(DragDropItem.OnDragOver))]
-	// internal class DragDropContainerOnDragOverPatch
-	// {
-	// 	private static void Prefix () => MelonLogger.Msg("Pre- OnDragOver");
-	// 	private static void Postfix() => MelonLogger.Msg("Post- OnDragOver");
-	// }
-	
-	[HarmonyPatch(typeof(Panel_PickUnits), nameof(Panel_PickUnits.SetGearForTransferToInventory))]
-	internal class PickUnitsToInventory
+	[HarmonyPatch(typeof(Panel_PickUnits), nameof(Panel_PickUnits.Update))]
+	internal class PickUnitsToContainer
 	{
-		internal static bool warned;
+		internal static int lastOpened;
 		static void Postfix (ref Panel_PickUnits __instance)
 		{
 			if (KeyboardUtilities.InputManager.GetKey(Settings.options.bulkKey))
 			{
+				if (Time.frameCount - lastOpened != 1) return;
 				__instance.OnExecuteAll();
-				if (!warned)
-				{
-					warned = true;
-					MelonCoroutines.Start(Warning());
 				}
+			else if (InputManager.GetKeyDown(InputManager.m_CurrentContext, Settings.options.interactKey))
+			{
+				__instance.OnExecute();
+			}
 			}
 		}
 
-
-		internal static IEnumerator Warning ()
-		{
-			InterfaceManager.GetPanel<Panel_HUD>().DisplayWarningMessage("QoL: First StackTransfer, could have closed the UI");
-			yield return new WaitForSeconds(5);
-			InterfaceManager.GetPanel<Panel_HUD>().ClearWarningMessage();
-		}
-	}
-
-	[HarmonyPatch(typeof(Panel_PickUnits), nameof(Panel_PickUnits.Update))]
-	internal class PickUnitsToContainer
+	[HarmonyPatch(typeof(Panel_PickUnits), nameof(Panel_PickUnits.SetGearForTransferToInventory))]
+	internal class PrePickUnitsToInventory
 	{
 		static void Postfix (ref Panel_PickUnits __instance)
 		{
-			if (Implementation.HoldingBulkKey)
-			{
-				__instance.OnAll();
-				__instance.Refresh();
-				__instance.OnExecuteAll();
-				if (!PickUnitsToInventory.warned)
-				{
-					PickUnitsToInventory.warned = true;
-					MelonCoroutines.Start(PickUnitsToInventory.Warning());
-				}
-			}
-
+			PickUnitsToContainer.lastOpened = Time.frameCount;
 		}
 	}
 
@@ -863,41 +815,25 @@ namespace QoL
 	{
 		static void Postfix (ref Panel_PickUnits __instance)
 		{
-			if (KeyboardUtilities.InputManager.GetKey(Settings.options.bulkKey))
-			{
-				__instance.OnExecuteAll();
-				if (!PickUnitsToInventory.warned)
-				{
-					PickUnitsToInventory.warned = true;
-					MelonCoroutines.Start(PickUnitsToInventory.Warning());
-				}
-			}
-
+			PickUnitsToContainer.lastOpened = Time.frameCount;
 		}
 	}
 
 	[HarmonyPatch(typeof(Panel_PickUnits), nameof(Panel_PickUnits.SetGearForDrop))]
 	internal class PickUnitsToDrop
 	{
-		static bool warned;
 		static void Postfix (ref Panel_PickUnits __instance)
 		{
-			if (KeyboardUtilities.InputManager.GetKey(Settings.options.bulkKey))
-			{
-				__instance.OnExecuteAll();
-				if (!warned)
-				{
-					warned = true;
-					MelonCoroutines.Start(Warning());
-				}
+			PickUnitsToContainer.lastOpened = Time.frameCount;
 			}
 		}
 
-		static IEnumerator Warning ()
+	[HarmonyPatch(typeof(Panel_PickUnits), nameof(Panel_PickUnits.SetGearForHarvest))]
+	internal class PickUnitsToHarvest
 		{
-			InterfaceManager.GetPanel<Panel_HUD>().DisplayWarningMessage("QoL: First trigger, if stuck, press Tab (or your status key) to reset");
-			yield return new WaitForSeconds(5);
-			InterfaceManager.GetPanel<Panel_HUD>().ClearWarningMessage();
+		static void Postfix (ref Panel_PickUnits __instance)
+		{
+			PickUnitsToContainer.lastOpened = Time.frameCount;
 		}
 	}
 
@@ -910,10 +846,8 @@ namespace QoL
 		{
 			GearItem? gearItem = __instance?.GearItemBeingInspected();
 			if (gearItem == null || !__instance.IsInspectModeActive()
-			 || GearItemPreInspect.LastTriggerFrame <= LastTriggerFrameConsumed) return; 
-
-			// Only active for items in world
-			if (GearItemPreInspect.LastInspectType != GearItemPreInspect.InspectType.None) return;
+			 || GearItemPreInspect.LastTriggerFrame <= LastTriggerFrameConsumed
+			 || GearItemPreInspect.LastInspectType != GearItemPreInspect.InspectType.None) return; // Only active for items in world
 
             float sinceLastInspect = Time.unscaledTime - GearItemPreInspect.LastInspect;
             bool trigger = false;
