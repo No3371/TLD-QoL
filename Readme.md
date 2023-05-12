@@ -24,7 +24,7 @@ However some features may act weird for the first time you trigger them every ga
 - **Alternative Back button**: Alternative to ESC. Default is Mouse3.
 - **Alternative Interact button**: Alternative to LeftMouseButton.
     - Default is Insert, which is intended to be changed to your preference so you don't accidentally touch it.
-    - (My personal preference is F with Status moved to H, Put Away moved to Mouse4, HIGHLY recommended)
+    - (My personal preference is F, this enables me to effortlessly control UI without moving my left hand most of the time. And my Status is moved to H, Put Away moved to Mouse4)
 
 - **Stack Transfer**: Skip the PickUnits UI, transfer a whole stack of items between the inventory and containers by holding the **Bulk** key.
     - Default is LeftShift.
