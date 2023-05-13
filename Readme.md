@@ -21,6 +21,7 @@ Reduce UI frustration, even make it pleasant to use. You can now use keyboard mo
 - **Stack Transfer**: Skip the PickUnits UI, transfer a whole stack of items between the inventory and containers by holding the **Bulk** key.
     - Default is LeftShift.
     - ![](https://imgur.com/fpqn05t.gif)
+    - (The above gif is outdated, it will now shows the UI for a frame. Previous implementation is a little buggy.)
 - **QuickDrop**: Press the **Drop** key (Default:Q) to drop items from inventory.
     - ![](https://imgur.com/B2W7jzl.gif)
     - If the stack is big enough to trigger the PickUnits UI, holding the Bulk Key will drop the whole stack.
