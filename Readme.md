@@ -35,8 +35,8 @@ Reduce UI frustration, even make it pleasant to use. You can now use keyboard mo
 - **A/D & Scroll Selection**
     - ![](https://imgur.com/7O89m10.gif)
     - When selecting units to transfer.
-        - Bulk key
     - When picking food to cook
+    - When selecting water volume to melt/cook/boil **(Added Bulk +-0.5L)**
     - When picking container to cook
     - When selecting clothing to swap **(Scroll Only)**
     - When selecting first aid item
@@ -53,6 +53,7 @@ Reduce UI frustration, even make it pleasant to use. You can now use keyboard mo
     - I don't know if I miss something...
 - **W/S Selection**
     - When selecting actions in Examine menu: repair, clean, harvest, etc.
+    - When selecting blueprints to craft (**Added Bulk +-4**)
 - **QuickInventoryNavigation**: Hold the **Modifer** key and press
     - W/S to switch between item categories
         - Also works in crafting menu
