@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using HarmonyLib;
 using Il2Cpp;
 using MelonLoader;
@@ -127,6 +127,8 @@ namespace QoL
 	{
 		private static void Postfix(ref Panel_BodyHarvest __instance)
 		{
+			if (__instance.IsHarvestingOrQuartering()) return;
+
 			if (InputManager.GetKeyDown(InputManager.m_CurrentContext, Settings.options.interactKey))
 			{
 				__instance.OnHarvest();
@@ -159,6 +161,8 @@ namespace QoL
 	{
 		private static void Postfix(ref Panel_BreakDown __instance)
 		{
+			if (__instance.IsBreakingDown()) return;
+
 			if (InputManager.GetKeyDown(InputManager.m_CurrentContext, Settings.options.interactKey))
 			{
 				__instance.OnBreakDown();
@@ -384,8 +388,10 @@ namespace QoL
 	[HarmonyPatch(typeof(Panel_Repair), nameof(Panel_Repair.Update))]
 	internal class AlternativeRepairPanelRepair
 	{
-		private static void Postfix(ref Panel_Repair __instance)
+		private static void Postfix(Panel_Repair __instance)
 		{
+			if (__instance.RepairInProgress()) return;
+
 			if (InputManager.GetKeyDown(InputManager.m_CurrentContext, Settings.options.interactKey))
 			{
 				__instance.OnRepair();
@@ -394,12 +400,22 @@ namespace QoL
 	}
 
 	[HarmonyPatch(typeof(Panel_Inventory_Examine), nameof(Panel_Inventory_Examine.Update))]
-	internal class AlternativeActionsPanelExecute
+	internal class ExaminePlus
 	{
-		private static void Postfix(ref Panel_Inventory_Examine __instance)
+		private static void Postfix(Panel_Inventory_Examine __instance)
 		{
 			if (__instance.IsCleaning() || __instance.IsRepairing() || __instance.IsHarvesting() ||__instance.IsReading() || __instance.IsSharpening() || __instance.IsSharpening())
 				return;
+
+				
+			if (__instance.m_ReadPanel.active)
+			{
+				if (InputManager.GetKeyDown(InputManager.m_CurrentContext, KeyCode.A) || InputManager.GetScroll(InputManager.m_CurrentContext) > 0)
+					__instance.OnReadHoursDecrease();
+				else if (InputManager.GetKeyDown(InputManager.m_CurrentContext, KeyCode.D) || InputManager.GetScroll(InputManager.m_CurrentContext) < 0)
+					__instance.OnReadHoursIncrease();
+			}
+
 			if (InputManager.GetKeyDown(InputManager.m_CurrentContext, Settings.options.interactKey))
 			{			
 				if (__instance.m_MenuItemHarvest != null && __instance.m_MenuItemHarvest.m_Selected)
@@ -434,25 +450,6 @@ namespace QoL
 		}
 	}
 
-
-	[HarmonyPatch(typeof(Panel_Inventory_Examine), nameof(Panel_Inventory_Examine.Update))]
-	internal class ReadHoursADScroll
-	{
-		private static void Postfix(ref Panel_Inventory_Examine __instance)
-		{
-			if (!__instance.m_ReadPanel.active)
-				return;
-            if (InputManager.GetKeyDown(InputManager.m_CurrentContext, KeyCode.A) || InputManager.GetScroll(InputManager.m_CurrentContext) > 0)
-			{
-				__instance.OnReadHoursDecrease();
-			}
-            else if (InputManager.GetKeyDown(InputManager.m_CurrentContext, KeyCode.D) || InputManager.GetScroll(InputManager.m_CurrentContext) < 0)
-			{
-				__instance.OnReadHoursIncrease();
-			}
-		}
-	}
-
 	[HarmonyPatch(typeof(CraftingRequirementContainer), nameof(CraftingRequirementContainer.Enable))]
 	internal class CraftingUILocator
 	{
@@ -469,6 +466,7 @@ namespace QoL
 		private static void Postfix(ref Panel_Crafting __instance)
 		{
 			if (__instance.m_CraftingInProgress) return;
+
 			if (InputManager.GetKeyDown(InputManager.m_CurrentContext, Settings.options.interactKey))
 			{
 				__instance.OnBeginCrafting();
