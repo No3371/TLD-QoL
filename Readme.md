@@ -28,7 +28,7 @@ Reduce UI frustration, even make it pleasant to use. You can now use keyboard mo
 - **QuickPlace**: Hold the **Modifier** key when performing QuickDrop will directly start placing 1 of the stack into the world.
     - Default is LeftCtrl.
     - ![](https://imgur.com/YWmLUtC.gif)
-- **Fast Pickup**: Directly pick up items by holding Interact for a bit (Default: 0.3 ~ 1 seconds) then release.
+- **Fast Pickup**: Directly pick up items by holding **Interact**/**AlternativeInteract** for a bit (Default: 0.3 ~ 1 seconds) then release.
     - The triggering duration can be configured.
 - **BulkPickUnits**: Hold the **Bulk** Key to increase/decrease the units by 5.
     - ![](https://imgur.com/JCACe0R.gif)
