@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using HarmonyLib;
 using Il2Cpp;
 using MelonLoader;
@@ -344,7 +344,7 @@ namespace QoL
 		private static void Postfix(ref InventoryGridItem __instance)
 		{
 			if (InputManager.GetKeyDown(InputManager.m_CurrentContext, Settings.options.interactKey)
-			 && Time.frameCount - lastTriggerFrame > 15 && __instance.IsSelected())
+			 && Time.frameCount - lastTriggerFrame > 12 && __instance.IsSelected())
 			{
 				if (KeyboardUtilities.InputManager.GetKey(Settings.options.modifierKey))
 				{
