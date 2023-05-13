@@ -416,7 +416,12 @@ namespace QoL
 					else
 						__instance.OnHarvest();
 				else if (__instance.m_MenuItemSharpen != null && __instance.m_MenuItemSharpen.m_Selected && __instance.m_Button_Sharpen.enabled)
-					__instance.OnSharpen();
+				{
+					if (__instance.m_ActionToolSelect.active)
+						__instance.OnSelectActionTool();
+					else
+						__instance.OnSharpen();
+				}
 				else if (__instance.m_MenuItemRepair != null && __instance.m_MenuItemRepair.m_Selected && __instance.m_Button_Repair.enabled && __instance.CanRepair())
 				{
 					if (__instance.m_ActionToolSelect.active)
