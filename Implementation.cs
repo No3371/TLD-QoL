@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using HarmonyLib;
 using Il2Cpp;
 using MelonLoader;
@@ -104,7 +104,7 @@ namespace QoL
 	[HarmonyPatch(typeof(Panel_Affliction), nameof(Panel_Affliction.Update))]
 	internal class AfflicationADScrollAndAlternativeTreatWound
 	{
-		private static void Postfix(ref Panel_Affliction __instance)
+		private static void Postfix(Panel_Affliction __instance)
 		{
 			if (InputManager.GetKeyDown(InputManager.m_CurrentContext, Settings.options.interactKey))
 			{
@@ -756,6 +756,7 @@ namespace QoL
 			// }
 			// This doesn't really work, so let's go rude.
 			if (!KeyboardUtilities.InputManager.GetKey(Settings.options.bulkKey)) return;
+
 			if (count++ >= 4) count = 0;
 			else 
 				__instance.OnIncrease();
@@ -910,8 +911,8 @@ namespace QoL
 		static void Postfix (ref Panel_PickUnits __instance)
 		{
 			PickUnitsToContainer.lastOpened = Time.frameCount;
-			}
 		}
+	}
 
 	[HarmonyPatch(typeof(Panel_PickUnits), nameof(Panel_PickUnits.SetGearForHarvest))]
 	internal class PickUnitsToHarvest
