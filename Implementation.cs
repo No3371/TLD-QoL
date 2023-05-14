@@ -506,9 +506,21 @@ namespace QoL
 			if (__instance.m_ReadPanel.active)
 			{
 				if (InputManager.GetKeyDown(InputManager.m_CurrentContext, KeyCode.A) || InputManager.GetScroll(InputManager.m_CurrentContext) > 0)
+				{
 					__instance.OnReadHoursDecrease();
+					if (KeyboardUtilities.InputManager.GetKey(Settings.options.bulkKey))
+					{
+						__instance.OnReadHoursDecrease();__instance.OnReadHoursDecrease();__instance.OnReadHoursDecrease();__instance.OnReadHoursDecrease();
+					}
+				}
 				else if (InputManager.GetKeyDown(InputManager.m_CurrentContext, KeyCode.D) || InputManager.GetScroll(InputManager.m_CurrentContext) < 0)
+				{
 					__instance.OnReadHoursIncrease();
+					if (KeyboardUtilities.InputManager.GetKey(Settings.options.bulkKey))
+					{
+						__instance.OnReadHoursIncrease();__instance.OnReadHoursIncrease();__instance.OnReadHoursIncrease();__instance.OnReadHoursIncrease();
+					}
+				}
 			}
 		}
 	}
