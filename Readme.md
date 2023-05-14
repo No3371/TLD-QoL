@@ -44,16 +44,17 @@ Reduce UI frustration, even make it pleasant to use. You can now use keyboard mo
     - When selecting tool to use to harvest carcass **(Scroll Only)**
     - When selecting tool to use to break down objects
     - When selecting spray shape **(Added Scroll)**
-    - When selecting hours to research
+    - When selecting hours to research **(Added Bulk +-0.5L)**
     - When selecting hours to rest
         - With Modifier key, switch between sleep / pass time
     - When selecting tool to use to repair, clean, etc.
     - When selecting units to melt/boil (**A/D Only**, **Bulk compatible**)
-    - When selecting units to craft (**A/D Only**)
+    - When selecting units to craft (**Bulk compatible**)
     - I don't know if I miss something...
 - **W/S Selection**
     - When selecting actions in Examine menu: repair, clean, harvest, etc.
     - When selecting blueprints to craft (**Added Bulk +-4**)
+    - When selecting food to cook (**Added Bulk +-5**)
 - **QuickInventoryNavigation**: Hold the **Modifer** key and press
     - W/S to switch between item categories
         - Also works in crafting menu
