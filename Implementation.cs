@@ -291,16 +291,24 @@ namespace QoL
 	{
 		private static void Postfix(Panel_Inventory __instance)
 		{
-            if (InputManager.GetKeyDown(InputManager.m_CurrentContext, Settings.options.dropKey)
-			 && KeyboardUtilities.InputManager.GetKey(Settings.options.modifierKey)
-			 && !KeyboardUtilities.InputManager.GetKey(Settings.options.bulkKey))
+			if (__instance.m_PickUnits.IsEnabled()) return;
+            if (InputManager.GetKeyDown(InputManager.m_CurrentContext, Settings.options.dropKey))
 			{
 				var gi = __instance.GetCurrentlySelectedGearItem();
 				if (gi.m_CantDropItem) return;
-				var singleGI = gi.Drop(1);
-				__instance.OnBack();
-				singleGI.TryStartPlaceMeshInteraction();
-				return;
+				if (KeyboardUtilities.InputManager.GetKey(Settings.options.modifierKey)
+				&& !KeyboardUtilities.InputManager.GetKey(Settings.options.bulkKey))
+				{
+					var singleGI = gi.Drop(1);
+					__instance.OnBack();
+					singleGI.TryStartPlaceMeshInteraction();
+					return;
+				}
+				else
+				{
+					__instance.OnDrop();
+					return;
+				}
 			}
 
             if (InputManager.GetKeyDown(InputManager.m_CurrentContext, KeyCode.End))
@@ -618,25 +626,6 @@ namespace QoL
 		}
 	}
 
-	[HarmonyPatch(typeof(Panel_Inventory), nameof(Panel_Inventory.Update))]
-	internal class QuickDrop
-	{
-		static bool warned;
-		private static void Postfix(ref Panel_Inventory __instance)
-		{
-            if (InputManager.GetKeyDown(InputManager.m_CurrentContext, Settings.options.dropKey))
-			{
-				var gi = __instance.GetCurrentlySelectedGearItem();
-				if (gi.m_CantDropItem) return;
-				__instance.OnDrop();
-            	// if (InputManager.GetKeyDown(InputManager.m_CurrentContext, Settings.options.stackTransferKey))
-				// 	__instance.GetCurrentlySelectedGearItem()?.Drop(__instance.m_NumColumns.GetCurrentlySelectedGearItem().);
-				// else
-				// 	__instance.GetCurrentlySelectedGearItem()?.Drop(1);
-			}
-		}
-	}
-
 	[HarmonyPatch(typeof(Panel_Cooking), nameof(Panel_Cooking.OnMeltSnowUp))]
 	internal class BulkIncreaseMeltUnits
 	{
@@ -839,20 +828,25 @@ namespace QoL
 	[HarmonyPatch(typeof(Panel_PickUnits), nameof(Panel_PickUnits.Update))]
 	internal class PickUnitsToContainer
 	{
-		internal static int lastOpened;
+		internal static int lastOpened, lastExecuted;
 		static void Postfix (ref Panel_PickUnits __instance)
 		{
-			if (KeyboardUtilities.InputManager.GetKey(Settings.options.bulkKey))
+			if (Time.frameCount - lastExecuted < 4) return;;
+			if (KeyboardUtilities.InputManager.GetKey(Settings.options.bulkKey)
+			 && !KeyboardUtilities.InputManager.GetKey(Settings.options.modifierKey))
 			{
 				if (Time.frameCount - lastOpened != 1) return;
 				__instance.OnExecuteAll();
-				}
+				lastExecuted = Time.frameCount;
+			}
 			else if (InputManager.GetKeyDown(InputManager.m_CurrentContext, Settings.options.interactKey))
 			{
+				if (Time.frameCount - lastOpened <= 1) return;
 				__instance.OnExecute();
-			}
+				lastExecuted = Time.frameCount;
 			}
 		}
+	}
 
 	[HarmonyPatch(typeof(Panel_PickUnits), nameof(Panel_PickUnits.SetGearForTransferToInventory))]
 	internal class PrePickUnitsToInventory
