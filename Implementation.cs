@@ -664,6 +664,32 @@ namespace QoL
 		}
 	}
 
+	[HarmonyPatch(typeof(Panel_Cooking), nameof(Panel_Cooking.ScrollUp))]
+	internal class BulkSelectFoodUp
+	{
+		static int count = 0;
+		private static void Postfix(ref Panel_Cooking __instance)
+		{
+			if (!KeyboardUtilities.InputManager.GetKey(Settings.options.bulkKey)) return;
+			if (count++ >= 4) count = 0;
+			else 
+				__instance.ScrollUp();
+		}
+	}
+
+	[HarmonyPatch(typeof(Panel_Cooking), nameof(Panel_Cooking.ScrollDown))]
+	internal class BulkSelectFoodDown
+	{
+		static int count = 0;
+		private static void Postfix(ref Panel_Cooking __instance)
+		{
+			if (!KeyboardUtilities.InputManager.GetKey(Settings.options.bulkKey)) return;
+			if (count++ >= 4) count = 0;
+			else 
+				__instance.ScrollDown();
+		}
+	}
+
 	[HarmonyPatch(typeof(Panel_Cooking), nameof(Panel_Cooking.OnWaterUp))]
 	internal class BulkIncreaseCookingWaterUnits
 	{
