@@ -73,10 +73,18 @@ namespace QoL
             if (InputManager.GetKeyDown(InputManager.m_CurrentContext, KeyCode.A) || InputManager.GetScroll(InputManager.m_CurrentContext) > 0)
 			{
 				__instance.OnDecreaseHours();
+				if (KeyboardUtilities.InputManager.GetKey(Settings.options.bulkKey))
+				{
+					__instance.OnDecreaseHours();__instance.OnDecreaseHours();__instance.OnDecreaseHours();__instance.OnDecreaseHours();
+				}
 			}
             else if (InputManager.GetKeyDown(InputManager.m_CurrentContext, KeyCode.D) || InputManager.GetScroll(InputManager.m_CurrentContext) < 0)
 			{
 				__instance.OnIncreaseHours();
+				if (KeyboardUtilities.InputManager.GetKey(Settings.options.bulkKey))
+				{
+					__instance.OnIncreaseHours();__instance.OnIncreaseHours();__instance.OnIncreaseHours();__instance.OnIncreaseHours();
+				}
 			}
 		}
 	}
