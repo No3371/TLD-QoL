@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using HarmonyLib;
 using Il2Cpp;
 using MelonLoader;
@@ -798,7 +798,7 @@ namespace QoL
 	internal class BulkIncreaseUnits
 	{
 		static int count = 0;
-		private static void Postfix(ref Panel_PickUnits __instance)
+		private static void Postfix(Panel_PickUnits __instance)
 		{
 			// MelonLogger.Msg(__instance.m_numUnits + "/" + __instance.m_maxUnits);
             // if (KeyboardUtilities.InputManager.GetKey(Settings.options.stackTransferKey))
@@ -808,10 +808,8 @@ namespace QoL
 			// }
 			// This doesn't really work, so let's go rude.
 			if (!KeyboardUtilities.InputManager.GetKey(Settings.options.bulkKey)) return;
-
 			if (count++ >= 4) count = 0;
-			else 
-				__instance.OnIncrease();
+			else __instance.OnIncrease();
 		}
 	}
 
@@ -819,7 +817,7 @@ namespace QoL
 	internal class BulkDecreaseUnits
 	{
 		static int count = 0;
-		private static void Postfix(ref Panel_PickUnits __instance)
+		private static void Postfix(Panel_PickUnits __instance)
 		{
 			// MelonLogger.Msg(__instance.m_numUnits + "/" + __instance.m_maxUnits);
             // if (KeyboardUtilities.InputManager.GetKey(Settings.options.stackTransferKey))
@@ -830,8 +828,7 @@ namespace QoL
 			// This doesn't really work, so let's go rude.
 			if (!KeyboardUtilities.InputManager.GetKey(Settings.options.bulkKey)) return;
 			if (count++ >= 4) count = 0;
-			else 
-				__instance.OnDecrease();
+			else __instance.OnDecrease();
 		}
 	}
 
@@ -922,7 +919,7 @@ namespace QoL
 		internal static int lastOpened, lastExecuted;
 		static void Postfix (ref Panel_PickUnits __instance)
 		{
-			if (Time.frameCount - lastExecuted < 4) return;;
+			if (Time.frameCount - lastExecuted < 4) return;
 			if (KeyboardUtilities.InputManager.GetKey(Settings.options.bulkKey)
 			 && !KeyboardUtilities.InputManager.GetKey(Settings.options.modifierKey))
 			{
