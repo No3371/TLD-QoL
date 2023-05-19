@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using HarmonyLib;
 using Il2Cpp;
 using MelonLoader;
@@ -746,7 +746,7 @@ namespace QoL
 	internal class BulkIncreaseCookingWaterUnits
 	{
 		static int count = 0;
-		private static void Postfix(ref Panel_Cooking __instance)
+		private static void Postfix(Panel_Cooking __instance)
 		{
 			if (!KeyboardUtilities.InputManager.GetKey(Settings.options.bulkKey)) return;
 			if (count++ >= 4) count = 0;
@@ -759,7 +759,7 @@ namespace QoL
 	internal class BulkDecreaseCookingWaterUnits
 	{
 		static int count = 0;
-		private static void Postfix(ref Panel_Cooking __instance)
+		private static void Postfix(Panel_Cooking __instance)
 		{
 			if (!KeyboardUtilities.InputManager.GetKey(Settings.options.bulkKey)) return;
 			if (count++ >= 4) count = 0;
@@ -772,7 +772,7 @@ namespace QoL
 	internal class BulkIncreaseBoilUnits
 	{
 		static int count = 0;
-		private static void Postfix(ref Panel_Cooking __instance)
+		private static void Postfix(Panel_Cooking __instance)
 		{
 			if (!KeyboardUtilities.InputManager.GetKey(Settings.options.bulkKey)) return;
 			if (count++ >= 4) count = 0;
@@ -785,7 +785,7 @@ namespace QoL
 	internal class BulkDecreaseBoilUnits
 	{
 		static int count = 0;
-		private static void Postfix(ref Panel_Cooking __instance)
+		private static void Postfix(Panel_Cooking __instance)
 		{
 			if (!KeyboardUtilities.InputManager.GetKey(Settings.options.bulkKey)) return;
 			if (count++ >= 4) count = 0;
@@ -798,7 +798,7 @@ namespace QoL
 	internal class BulkIncreaseUnits
 	{
 		static int count = 0;
-		private static void Postfix(Panel_PickUnits __instance)
+		static void Postfix(Panel_PickUnits __instance)
 		{
 			// MelonLogger.Msg(__instance.m_numUnits + "/" + __instance.m_maxUnits);
             // if (KeyboardUtilities.InputManager.GetKey(Settings.options.stackTransferKey))
@@ -807,6 +807,7 @@ namespace QoL
 			// 	__instance.m_numUnits = Math.Min(__instance.m_maxUnits, __instance.m_numUnits);
 			// }
 			// This doesn't really work, so let's go rude.
+			MelonLogger.Msg("Panel_PickUnits.OnIncrease");
 			if (!KeyboardUtilities.InputManager.GetKey(Settings.options.bulkKey)) return;
 			if (count++ >= 4) count = 0;
 			else __instance.OnIncrease();
@@ -817,7 +818,7 @@ namespace QoL
 	internal class BulkDecreaseUnits
 	{
 		static int count = 0;
-		private static void Postfix(Panel_PickUnits __instance)
+		static void Postfix(Panel_PickUnits __instance)
 		{
 			// MelonLogger.Msg(__instance.m_numUnits + "/" + __instance.m_maxUnits);
             // if (KeyboardUtilities.InputManager.GetKey(Settings.options.stackTransferKey))
@@ -836,7 +837,7 @@ namespace QoL
 	internal class BulkIncreaseWaterUnits
 	{
 		static int count = 0;
-		private static void Postfix(ref Panel_PickWater __instance)
+		private static void Postfix(Panel_PickWater __instance)
 		{
 			if (!KeyboardUtilities.InputManager.GetKey(Settings.options.bulkKey)) return;
 			if (count++ >= 4) count = 0;
@@ -849,7 +850,7 @@ namespace QoL
 	internal class BulkDecreaseWaterUnits
 	{
 		static int count = 0;
-		private static void Postfix(ref Panel_PickWater __instance)
+		private static void Postfix(Panel_PickWater __instance)
 		{
 			if (!KeyboardUtilities.InputManager.GetKey(Settings.options.bulkKey)) return;
 			if (count++ >= 4) count = 0;
@@ -914,10 +915,10 @@ namespace QoL
 	}
 
 	[HarmonyPatch(typeof(Panel_PickUnits), nameof(Panel_PickUnits.Update))]
-	internal class PickUnitsToContainer
+	internal class PickUnitsUpdate
 	{
 		internal static int lastOpened, lastExecuted;
-		static void Postfix (ref Panel_PickUnits __instance)
+		static void Postfix (Panel_PickUnits __instance)
 		{
 			if (Time.frameCount - lastExecuted < 4) return;
 			if (KeyboardUtilities.InputManager.GetKey(Settings.options.bulkKey)
@@ -939,36 +940,36 @@ namespace QoL
 	[HarmonyPatch(typeof(Panel_PickUnits), nameof(Panel_PickUnits.SetGearForTransferToInventory))]
 	internal class PrePickUnitsToInventory
 	{
-		static void Postfix (ref Panel_PickUnits __instance)
+		static void Postfix (Panel_PickUnits __instance)
 		{
-			PickUnitsToContainer.lastOpened = Time.frameCount;
+			PickUnitsUpdate.lastOpened = Time.frameCount;
 		}
 	}
 
 	[HarmonyPatch(typeof(Panel_PickUnits), nameof(Panel_PickUnits.SetGearForTransferToContainer))]
 	internal class PrePickUnitsToContainer
 	{
-		static void Postfix (ref Panel_PickUnits __instance)
+		static void Postfix (Panel_PickUnits __instance)
 		{
-			PickUnitsToContainer.lastOpened = Time.frameCount;
+			PickUnitsUpdate.lastOpened = Time.frameCount;
 		}
 	}
 
 	[HarmonyPatch(typeof(Panel_PickUnits), nameof(Panel_PickUnits.SetGearForDrop))]
 	internal class PickUnitsToDrop
 	{
-		static void Postfix (ref Panel_PickUnits __instance)
+		static void Postfix (Panel_PickUnits __instance)
 		{
-			PickUnitsToContainer.lastOpened = Time.frameCount;
+			PickUnitsUpdate.lastOpened = Time.frameCount;
 		}
 	}
 
 	[HarmonyPatch(typeof(Panel_PickUnits), nameof(Panel_PickUnits.SetGearForHarvest))]
 	internal class PickUnitsToHarvest
 		{
-		static void Postfix (ref Panel_PickUnits __instance)
+		static void Postfix (Panel_PickUnits __instance)
 		{
-			PickUnitsToContainer.lastOpened = Time.frameCount;
+			PickUnitsUpdate.lastOpened = Time.frameCount;
 		}
 	}
 
@@ -977,7 +978,7 @@ namespace QoL
 	{
 		public static int LastTriggerFrameConsumed { get; private set; }
 		public static float LastFastPickTriggered { get; private set; }
-		static void Postfix (ref PlayerManager __instance)
+		static void Postfix (PlayerManager __instance)
 		{
 			GearItem? gearItem = __instance?.GearItemBeingInspected();
 			if (gearItem == null || !__instance.IsInspectModeActive()
