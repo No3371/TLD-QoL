@@ -214,9 +214,27 @@ namespace QoL
 		{
 			if (__instance.IsHarvestingOrQuartering()) return;
 
+			if (InputManager.GetKeyDown(InputManager.m_CurrentContext, KeyCode.D)
+			 && KeyboardUtilities.InputManager.GetKey(Settings.options.modifierKey)
+			 && __instance.IsTabHarvestSelected())
+			{
+				__instance.OnTabQuarterSelected();
+				return;
+			}
+            else if (InputManager.GetKeyDown(InputManager.m_CurrentContext, KeyCode.A)
+			 && KeyboardUtilities.InputManager.GetKey(Settings.options.modifierKey)
+			 && __instance.IsTabQuarterSelected())
+			{
+				__instance.OnTabHarvestSelected();
+				return;
+			}
+
 			if (InputManager.GetKeyDown(InputManager.m_CurrentContext, Settings.options.interactKey))
 			{
-				__instance.OnHarvest();
+				if (__instance.IsTabHarvestSelected())
+					__instance.OnHarvest();
+				else if (__instance.IsTabQuarterSelected())
+					__instance.OnQuarter();
 				return;
 			}
 
