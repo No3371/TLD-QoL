@@ -259,6 +259,46 @@ namespace QoL
 		}
 	}
 
+	[HarmonyPatch(typeof(Panel_SnowShelterBuild), nameof(Panel_SnowShelterBuild.Update))]
+	internal class AlternativeBuildShelter
+	{
+		private static void Postfix(Panel_SnowShelterBuild __instance)
+		{
+			if (__instance.IsBuilding()) return;
+			if (InputManager.GetKeyDown(InputManager.m_CurrentContext, Settings.options.interactKey))
+			{
+				__instance.OnBuild();
+				return;
+			}
+		}
+	}
+
+	[HarmonyPatch(typeof(Panel_SnowShelterInteract), nameof(Panel_SnowShelterInteract.Update))]
+	internal class AlternativeShelterInteract
+	{
+		private static void Postfix(Panel_SnowShelterInteract __instance)
+		{
+			if (__instance.IsDismantling() || __instance.IsRepairing()) return;
+			if (InputManager.GetKeyDown(InputManager.m_CurrentContext, Settings.options.interactKey))
+			{
+				switch (__instance.m_SelectedButtonIndex)
+				{
+					case 0:
+						__instance.OnUse();
+						break;
+					case 1:
+						__instance.OnRepair();
+						break;
+					case 2:
+						__instance.OnDismantle();
+						break;
+
+				}
+				return;
+			}
+		}
+	}
+
 	[HarmonyPatch(typeof(Panel_BreakDown), nameof(Panel_BreakDown.Update))]
 	internal class BreakDownToolADScrollAndAlternativeBreakDown
 	{
