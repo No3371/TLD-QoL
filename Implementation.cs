@@ -344,6 +344,16 @@ namespace QoL
 		private static void Postfix(Panel_Inventory __instance)
 		{
 			if (__instance.m_PickUnits.IsEnabled()) return;
+			if (__instance.m_ItemDescriptionPage.m_ProgressBar.IsEnabled()) return;
+			if (InputManager.GetKeyDown(InputManager.m_CurrentContext, Settings.options.interactKey))
+			{
+				if (KeyboardUtilities.InputManager.GetKey(Settings.options.modifierKey))
+				{
+					__instance.OnExamine();
+				}
+				else __instance.OnEquip();
+				return;
+			}
             if (InputManager.GetKeyDown(InputManager.m_CurrentContext, Settings.options.dropKey))
 			{
 				var gi = __instance.GetCurrentlySelectedGearItem();
@@ -411,6 +421,12 @@ namespace QoL
 	{
 		private static void Postfix(ref Panel_Container __instance)
 		{
+            if (InputManager.GetKeyDown(InputManager.m_CurrentContext, Settings.options.interactKey))
+			{
+				__instance.OnMoveItem();
+				return;
+			}
+
             if (InputManager.GetKeyDown(InputManager.m_CurrentContext, KeyCode.D)
 			 && KeyboardUtilities.InputManager.GetKey(Settings.options.modifierKey))
 			{
@@ -441,31 +457,37 @@ namespace QoL
 		}
 	}
 
-	[HarmonyPatch(typeof(InventoryGridItem), nameof(InventoryGridItem.Update))]
-	internal class QuickInteractInventoryGrid
-	{
-		static int lastTriggerFrame;
-		private static void Postfix(ref InventoryGridItem __instance)
-		{
-			if (InputManager.GetKeyDown(InputManager.m_CurrentContext, Settings.options.interactKey)
-			 && Time.frameCount - lastTriggerFrame > 12 && __instance.IsSelected())
-			{
-				if (KeyboardUtilities.InputManager.GetKey(Settings.options.modifierKey))
-				{
-					__instance.m_Inventory.GetPanel().OnExamine();
-				}
-				else __instance.DoubleClick();
-				lastTriggerFrame = Time.frameCount;
-			}
-		}
-	}
+	// [HarmonyPatch(typeof(InventoryGridItem), nameof(InventoryGridItem.Update))]
+	// internal class QuickInteractInventoryGrid
+	// {
+	// 	static int lastTriggerFrame;
+	// 	private static void Postfix(InventoryGridItem __instance)
+	// 	{
+	// 		if (InputManager.GetKeyDown(InputManager.m_CurrentContext, Settings.options.interactKey)
+	// 		 && Time.frameCount - lastTriggerFrame > 12 && __instance.IsSelected())
+	// 		{
+	// 			if (KeyboardUtilities.InputManager.GetKey(Settings.options.modifierKey))
+	// 			{
+	// 				__instance.m_Inventory.GetPanel().OnExamine();
+	// 			}
+	// 			else __instance.DoubleClick();
+	// 			lastTriggerFrame = Time.frameCount;
+	// 		}
+	// 	}
+	// }
 
 	[HarmonyPatch(typeof(Panel_Clothing), nameof(Panel_Clothing.Update))]
 	internal class QuickInteractClothing
 	{
 		static int lastTriggerFrame;
-		private static void Postfix(ref Panel_Clothing __instance)
+		private static void Postfix(Panel_Clothing __instance)
 		{
+			if (InputManager.GetKeyDown(InputManager.m_CurrentContext, Settings.options.dropKey))
+			{
+				__instance.OnDropItem();
+				return;
+			}
+
 			if (InputManager.GetKeyDown(InputManager.m_CurrentContext, Settings.options.interactKey)
 			 && Time.frameCount - lastTriggerFrame > 15
 			 && __instance.GetCurrentlySelectedGearItem() != null)
