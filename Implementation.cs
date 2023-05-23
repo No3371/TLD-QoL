@@ -965,20 +965,37 @@ namespace QoL
 		internal static int lastOpened, lastExecuted;
 		static void Postfix (Panel_PickUnits __instance)
 		{
-			if (Time.frameCount - lastExecuted < 4) return;
+			if (lastOpened <= lastExecuted) return;
 			if (KeyboardUtilities.InputManager.GetKey(Settings.options.bulkKey)
 			 && !KeyboardUtilities.InputManager.GetKey(Settings.options.modifierKey))
 			{
 				if (Time.frameCount - lastOpened != 1) return;
 				__instance.OnExecuteAll();
-				lastExecuted = Time.frameCount;
+				lastExecuted = lastOpened;
+				return;
 			}
 			else if (InputManager.GetKeyDown(InputManager.m_CurrentContext, Settings.options.interactKey))
 			{
 				if (Time.frameCount - lastOpened <= 1) return;
 				__instance.OnExecute();
-				lastExecuted = Time.frameCount;
+				lastExecuted = lastOpened;
+				return;
 			}
+
+			// if (KeyboardUtilities.InputManager.GetKey(Settings.options.bulkKey)
+			//  && InputManager.GetKeyDown(InputManager.m_CurrentContext, KeyCode.A))
+			// {
+			// 	__instance.m_numUnits = Mathf.Max(0, __instance.m_numUnits - 4);
+			// }
+			// else if (KeyboardUtilities.InputManager.GetKey(Settings.options.bulkKey)
+			//  && InputManager.GetKeyDown(InputManager.m_CurrentContext, KeyCode.D))
+			// {
+			// 	__instance.m_numUnits = Mathf.Min(__instance.m_maxUnits, __instance.m_numUnits + 4);
+			// 	// __instance.OnIncrease();
+			// 	// __instance.OnIncrease();
+			// 	// __instance.OnIncrease();
+			// 	// __instance.OnIncrease();
+			// }
 		}
 	}
 
