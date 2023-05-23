@@ -43,7 +43,6 @@ Reduce UI frustration, even make it pleasant to use. You can now use keyboard mo
     - When selecting affliction to tend
     - When selecting tool to use to harvest carcass **(Scroll Only)**
     - When selecting tool to use to break down objects
-    - When selecting spray shape **(Added Scroll)**
     - When selecting hours to research **(Added Bulk +-0.5L)**
     - When selecting hours to rest
         - With Modifier key, switch between sleep / pass time

@@ -8,7 +8,6 @@ namespace QoL
 {
 	public class Implementation : MelonMod
 	{
-		public static float lastBulkDown = 0, lastBulkUp = 1;
         public override void OnInitializeMelon()
 		{
 			MelonLogger.Msg($"[{Info.Name}] Version {Info.Version} loaded!");
@@ -89,26 +88,28 @@ namespace QoL
 		}
 	}
 
-	[HarmonyPatch(typeof(Panel_FirstAid), nameof(Panel_FirstAid.Update))]
-	internal class FirstAidADScrollAndAlternativeFirstAid
-	{
-		private static void Postfix(ref Panel_FirstAid __instance)
-		{
-			if (InputManager.GetKeyDown(InputManager.m_CurrentContext, Settings.options.interactKey))
-			{
-				__instance.UseSelectedItem();
-				return;
-			}
-            if (InputManager.GetKeyDown(InputManager.m_CurrentContext, KeyCode.A) || InputManager.GetScroll(InputManager.m_CurrentContext) > 0)
-			{
-				__instance.SelectPrevFAKItem();
-			}
-            else if (InputManager.GetKeyDown(InputManager.m_CurrentContext, KeyCode.D) || InputManager.GetScroll(InputManager.m_CurrentContext) < 0)
-			{
-				__instance.SelectNextFAKItem();
-			}
-		}
-	}
+	// [HarmonyPatch(typeof(Panel_FirstAid), nameof(Panel_FirstAid.Update))]
+	// internal class FirstAidADScrollAndAlternativeFirstAid
+	// {
+	// 	private static void Postfix(ref Panel_FirstAid __instance)
+	// 	{
+	// 		if (InputManager.GetKeyDown(InputManager.m_CurrentContext, Settings.options.interactKey))
+	// 		{
+	// 			if (__instance.m_SelectedFAKButton != null)
+	// 				__instance.UseSelectedItem();
+	// 			return;
+	// 		}
+    //         if (InputManager.GetKeyDown(InputManager.m_CurrentContext, KeyCode.A))
+	// 		{
+	// 			__instance.SelectMainTreatment();
+	// 		}
+    //         else if (InputManager.GetKeyDown(InputManager.m_CurrentContext, KeyCode.D))
+	// 		{
+	// 			__instance.SelectAltTreatment();
+	// 		}
+	// 	}
+	// }
+
 	[HarmonyPatch(typeof(Panel_Affliction), nameof(Panel_Affliction.Update))]
 	internal class AfflicationADScrollAndAlternativeTreatWound
 	{
@@ -249,7 +250,7 @@ namespace QoL
 	[HarmonyPatch(typeof(Panel_FireStart), nameof(Panel_FireStart.Update))]
 	internal class AlternativeStartFire
 	{
-		private static void Postfix(ref Panel_FireStart __instance)
+		private static void Postfix(Panel_FireStart __instance)
 		{
 			if (InputManager.GetKeyDown(InputManager.m_CurrentContext, Settings.options.interactKey))
 			{
@@ -385,14 +386,14 @@ namespace QoL
 				__instance.OnButtonConfirm();
 				return;
 			}
-            if (InputManager.GetScroll(InputManager.m_CurrentContext) > 0)
-			{
-				__instance.OnButtonScrollLeft();
-			}
-            else if (InputManager.GetScroll(InputManager.m_CurrentContext) < 0)
-			{
-				__instance.OnButtonScrollRight();
-			}
+            // if (InputManager.GetScroll(InputManager.m_CurrentContext) > 0)
+			// {
+			// 	__instance.OnButtonScrollLeft();
+			// }
+            // else if (InputManager.GetScroll(InputManager.m_CurrentContext) < 0)
+			// {
+			// 	__instance.OnButtonScrollRight();
+			// }
 		}
 	}
 
@@ -432,7 +433,10 @@ namespace QoL
 			}
 
             if (InputManager.GetKeyDown(InputManager.m_CurrentContext, KeyCode.End))
+			{
 			 	__instance.ScrollToBottom();
+				return;
+			}
 
             if (InputManager.GetKeyDown(InputManager.m_CurrentContext, KeyCode.D)
 			 && KeyboardUtilities.InputManager.GetKey(Settings.options.modifierKey))
@@ -593,7 +597,7 @@ namespace QoL
 				return;
 
 			if (InputManager.GetKeyDown(InputManager.m_CurrentContext, Settings.options.interactKey))
-			{			
+			{
 				if (__instance.m_MenuItemHarvest != null && __instance.m_MenuItemHarvest.m_Selected && __instance.m_Button_Harvest.enabled && __instance.CanHarvest())
 					if (__instance.m_ActionToolSelect.active)
 						__instance.OnSelectActionTool();
@@ -871,45 +875,6 @@ namespace QoL
 			if (count++ >= 4) count = 0;
 			else 
 				__instance.OnBoilDown();
-		}
-	}
-
-	[HarmonyPatch(typeof(Panel_PickUnits), nameof(Panel_PickUnits.OnIncrease))]
-	internal class BulkIncreaseUnits
-	{
-		static int count = 0;
-		static void Postfix(Panel_PickUnits __instance)
-		{
-			// MelonLogger.Msg(__instance.m_numUnits + "/" + __instance.m_maxUnits);
-            // if (KeyboardUtilities.InputManager.GetKey(Settings.options.stackTransferKey))
-			// {
-			// 	__instance.m_numUnits += 4;
-			// 	__instance.m_numUnits = Math.Min(__instance.m_maxUnits, __instance.m_numUnits);
-			// }
-			// This doesn't really work, so let's go rude.
-			MelonLogger.Msg("Panel_PickUnits.OnIncrease");
-			if (!KeyboardUtilities.InputManager.GetKey(Settings.options.bulkKey)) return;
-			if (count++ >= 4) count = 0;
-			else __instance.OnIncrease();
-		}
-	}
-
-	[HarmonyPatch(typeof(Panel_PickUnits), nameof(Panel_PickUnits.OnDecrease))]
-	internal class BulkDecreaseUnits
-	{
-		static int count = 0;
-		static void Postfix(Panel_PickUnits __instance)
-		{
-			// MelonLogger.Msg(__instance.m_numUnits + "/" + __instance.m_maxUnits);
-            // if (KeyboardUtilities.InputManager.GetKey(Settings.options.stackTransferKey))
-			// {
-			// 	__instance.m_numUnits -= 4;
-			// 	__instance.m_numUnits = Math.Max(0, __instance.m_numUnits);
-			// }
-			// This doesn't really work, so let's go rude.
-			if (!KeyboardUtilities.InputManager.GetKey(Settings.options.bulkKey)) return;
-			if (count++ >= 4) count = 0;
-			else __instance.OnDecrease();
 		}
 	}
 
