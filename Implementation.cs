@@ -1084,4 +1084,18 @@ namespace QoL
 			GearItemPreInspect.LastTriggerFrame = Time.frameCount;
 		}
 	}
+
+	[HarmonyPatch(typeof(GearItem), nameof(GearItem.Deserialize))]
+	internal class LOD
+	{
+		static void Postfix (GearItem __instance)
+		{
+			float lodScale = Settings.options.lodScale;
+			if (lodScale <= 1.005 || lodScale >= 0.995) return;
+			if (__instance.TryGetComponent<LODGroup>(out var g))
+            {
+                g.size *= lodScale;
+            }
+        }
+	}
 }
