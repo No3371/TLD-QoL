@@ -959,12 +959,80 @@ namespace QoL
 		}
 	}
 
+	// [HarmonyPatch(typeof(Panel_PickUnits), nameof(Panel_PickUnits.OnIncrease))]
+	// internal class BulkIncreaseUnits
+	// {
+	// 	static int count = 0;
+	// 	static bool Prefix(Panel_PickUnits __instance)
+	// 	{
+	// 		// MelonLogger.Msg(__instance.m_numUnits + "/" + __instance.m_maxUnits);
+    //         // if (KeyboardUtilities.InputManager.GetKey(Settings.options.stackTransferKey))
+	// 		// {
+	// 		// 	__instance.m_numUnits += 4;
+	// 		// 	__instance.m_numUnits = Math.Min(__instance.m_maxUnits, __instance.m_numUnits);
+	// 		// }
+	// 		// This doesn't really work, so let's go rude.
+	// 		MelonLogger.Msg($"Panel_PickUnits.OnIncrease ({count})");
+	// 		if (KeyboardUtilities.InputManager.GetKey(Settings.options.bulkKey))
+	// 		{
+	// 			if (count++ >= 4) count = 0;
+	// 			else __instance.OnIncrease();
+	// 		}
+
+	// 		return true;
+	// 	}
+	// }
+
+	// [HarmonyPatch(typeof(Panel_PickUnits), nameof(Panel_PickUnits.OnDecrease))]
+	// internal class BulkDecreaseUnits
+	// {
+	// 	static int count = 0;
+	// 	static bool Prefix(Panel_PickUnits __instance)
+	// 	{
+	// 		// MelonLogger.Msg(__instance.m_numUnits + "/" + __instance.m_maxUnits);
+    //         // if (KeyboardUtilities.InputManager.GetKey(Settings.options.stackTransferKey))
+	// 		// {
+	// 		// 	__instance.m_numUnits -= 4;
+	// 		// 	__instance.m_numUnits = Math.Max(0, __instance.m_numUnits);
+	// 		// }
+	// 		// This doesn't really work, so let's go rude.
+	// 		if (KeyboardUtilities.InputManager.GetKey(Settings.options.bulkKey))
+	// 		{
+	// 			if (count++ >= 4) count = 0;
+	// 			else __instance.OnDecrease();
+	// 		}
+
+	// 		return true;
+	// 	}
+	// }
+
 	[HarmonyPatch(typeof(Panel_PickUnits), nameof(Panel_PickUnits.Update))]
 	internal class PickUnitsUpdate
 	{
 		internal static int lastOpened, lastExecuted;
 		static void Postfix (Panel_PickUnits __instance)
 		{
+			if (KeyboardUtilities.InputManager.GetKey(Settings.options.bulkKey)
+			 && InputManager.GetKeyDown(InputManager.m_CurrentContext, KeyCode.A))
+			{
+				// __instance.m_numUnits = Mathf.Max(0, __instance.m_numUnits - 4);
+				__instance.OnDecrease();
+				__instance.OnDecrease();
+				__instance.OnDecrease();
+				__instance.OnDecrease();
+				return;
+			}
+			else if (KeyboardUtilities.InputManager.GetKey(Settings.options.bulkKey)
+			 && InputManager.GetKeyDown(InputManager.m_CurrentContext, KeyCode.D))
+			{
+				// __instance.m_numUnits = Mathf.Min(__instance.m_maxUnits, __instance.m_numUnits + 4);
+				__instance.OnIncrease();
+				__instance.OnIncrease();
+				__instance.OnIncrease();
+				__instance.OnIncrease();
+				return;
+			}
+
 			if (lastOpened <= lastExecuted) return;
 			if (KeyboardUtilities.InputManager.GetKey(Settings.options.bulkKey)
 			 && !KeyboardUtilities.InputManager.GetKey(Settings.options.modifierKey))
