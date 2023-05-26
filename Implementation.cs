@@ -1185,4 +1185,18 @@ namespace QoL
             }
         }
 	}
+
+	[HarmonyPatch(typeof(BodyHarvest), nameof(BodyHarvest.Deserialize))]
+	internal class CarcassLOD
+	{
+		static void Postfix (BodyHarvest __instance)
+		{
+			float lodScale = Settings.options.lodScale;
+			if (Mathf.Approximately(lodScale, 1)) return;
+			if (__instance.GetComponent<GearItem>() == null && __instance.TryGetComponent<LODGroup>(out var g))
+            {
+                g.size *= lodScale;
+            }
+        }
+	}
 }
