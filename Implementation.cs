@@ -1171,14 +1171,16 @@ namespace QoL
 	}
 
 	[HarmonyPatch(typeof(GearItem), nameof(GearItem.Deserialize))]
-	internal class LOD
+	internal class GearItemLOD
 	{
 		static void Postfix (GearItem __instance)
 		{
 			float lodScale = Settings.options.lodScale;
-			if (lodScale <= 1.005 || lodScale >= 0.995) return;
+			if (Mathf.Approximately(lodScale, 1)) return;
 			if (__instance.TryGetComponent<LODGroup>(out var g))
             {
+				var delta = 0.5f - g.size;
+				if (delta > 0) g.size += delta * 0.5f;
                 g.size *= lodScale;
             }
         }
