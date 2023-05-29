@@ -37,7 +37,7 @@ namespace QoL
 		public bool stopResetAlternativeInteract;
 
 		[Name("GearItem LOD Size Scale")]
-		[Description("Adjust the distance an item becomes visible, could impact graphic performance")]
+		[Description("Adjust the distance an item becomes visible, could impact graphic performance.")]
 		[Slider(1f, 3f)]
 		public float lodScale = 1f;
 		[Name("Void Trash Can")]

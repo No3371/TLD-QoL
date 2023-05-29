@@ -81,7 +81,7 @@ https://github.com/No3371/TLD-QoL/assets/1814971/92e50a92-107f-407c-ae1d-1501f15
 
 - **LOD Tweaks**
     - Scale up LOD size for items, this means items becomes visible from further
-    - Also scale up animals and carcasses if it's enabled (configured value > 1)
+    - Also scale up LOD size for animals and carcasses by 50% if the tweak is enabled (configured value > 1)
 
 - **Void Trash Cans**
     - When enabled, Items in trash cans decay pretty fast and will be destoryed when it's ruined.
