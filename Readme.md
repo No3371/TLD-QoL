@@ -34,6 +34,7 @@ Reduce UI frustration, even make it pleasant to use. You can now use keyboard mo
     - ![](https://imgur.com/JCACe0R.gif)
 - **A/D & Scroll Selection**
     - ![](https://imgur.com/7O89m10.gif)
+    - When selecting action to perform (ex: AddFuel/Cook/Water...)
     - When selecting units to transfer.
     - When picking food to cook
     - When selecting water volume to melt/cook/boil **(Added Bulk +-0.5L)**
@@ -42,6 +43,7 @@ Reduce UI frustration, even make it pleasant to use. You can now use keyboard mo
     - When selecting first aid item
     - When selecting affliction to tend
     - When selecting tool to use to harvest carcass **(Scroll Only)**
+        - Modifier + A/D to switch between harvest/quarter
     - When selecting tool to use to break down objects
     - When selecting hours to research **(Added Bulk +-0.5L)**
     - When selecting hours to rest
@@ -85,6 +87,7 @@ https://github.com/No3371/TLD-QoL/assets/1814971/92e50a92-107f-407c-ae1d-1501f15
 
 - **Void Trash Cans**
     - When enabled, Items in trash cans decay pretty fast and will be destoryed when it's ruined.
+    - (Not very immersive, but helps with dealing with some unwanted items, especially in modded games)
 
 - **Container Open Time Tweak**
     - When enabled, Scale the time to open a searched container
