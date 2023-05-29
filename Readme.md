@@ -66,7 +66,7 @@ https://github.com/No3371/TLD-QoL/assets/1814971/92e50a92-107f-407c-ae1d-1501f15
 
 *(Switching categories, selecting item, examining, repairing, all without the mouse)*
 
-- **QuickExamine**:
+- **QuickExamine**
     - Hold **Modifier** key and press the **AlternativeInteract** key to examine item (like clicking `Actions` button)
 - **AlternativeInteractConfirmation**
     - Press the **AlternativeInteract** key to
@@ -78,6 +78,10 @@ https://github.com/No3371/TLD-QoL/assets/1814971/92e50a92-107f-407c-ae1d-1501f15
         - Confirm units: units to transfer, hours to read, etc.
         - "Take It" when inspecting item
         - I don't know if I miss something...
+
+- **LOD Tweaks**
+    - Scale up LOD size for items, this means items becomes visible from further
+    - Also scale up animals and carcasses if it's enabled (configured value > 1)
 
 - **Void Trash Cans**
     - When enabled, Items in trash cans decay pretty fast and will be destoryed when it's ruined.

@@ -1221,6 +1221,10 @@ namespace QoL
 			if (Mathf.Approximately(lodScale, 1)) return;
 			if (__instance.GetComponent<GearItem>() == null && __instance.TryGetComponent<LODGroup>(out var g))
             {
+                g.size *= 1.5f;
+            }
+        }
+	}
 
 	[HarmonyPatch(typeof(Panel_Container), nameof(Panel_Container.OnDone))]
 	internal class TrashCanWarning
