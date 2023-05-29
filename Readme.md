@@ -78,3 +78,10 @@ https://github.com/No3371/TLD-QoL/assets/1814971/92e50a92-107f-407c-ae1d-1501f15
         - Confirm units: units to transfer, hours to read, etc.
         - "Take It" when inspecting item
         - I don't know if I miss something...
+
+- **Container Open Time Tweak**
+    - Scale the time to open a searched container
+
+- **Container Search Time Tweak**
+    - Scale the time to search a container by items
+    - For example: by default, it cost 20% of original time per item, so a container with 3 items cost 60% of original time to search

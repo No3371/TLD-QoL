@@ -40,6 +40,23 @@ namespace QoL
 		[Description("Adjust the distance an item becomes visible, could impact graphic performance")]
 		[Slider(1f, 3f)]
 		public float lodScale = 1f;
+
+		[Name("Container Time Tweaks")]
+		[Description("Toggle the container open/search time tweaks.")]
+		public bool containterTimeTweak = false;
+
+		[Name("Container Open Time Scale")]
+		[Description("Shortening the time to open searched containers.")]
+		public float containterOpenTimeScale = 0.5f;
+
+		[Name("Container Search Time Scale Per Item")]
+		[Description("Shortening the time to search containers. For example, by default a container with 3 items will cost 60% of the default time to search.")]
+		public float containterSearchTimeScalePerItem = 0.2f;
+
+		[Name("Container Search Time Max")]
+		[Description("The maximum search time scale.")]
+		[Slider(0.4f, 3f)]
+		public float containterSearchTimeScaleMax = 1f;
 	}
 	internal static class Settings
 	{

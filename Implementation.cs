@@ -1266,4 +1266,21 @@ namespace QoL
 			}
         }
 	}
+
+	[HarmonyPatch(typeof(Container), nameof(Container.BeginContainerOpen))]
+	internal static class PatchFasterSearchUpdated
+	{
+		static void Prefix(Container __instance)
+		{
+			if (!Settings.options.containterTimeTweak) return;
+			ContainerInteraction interaction = __instance.GetComponent<ContainerInteraction>();
+			if (interaction == null) return;
+
+			var defaultTime = interaction.HoldTime;
+			if (__instance.IsInspected())
+				interaction.HoldTime *= Settings.options.containterOpenTimeScale;
+			else
+				interaction.HoldTime = Mathf.Clamp(defaultTime * (Settings.options.containterSearchTimeScalePerItem * __instance.m_GearToInstantiate.Count), defaultTime *0.1f, defaultTime * Settings.options.containterSearchTimeScaleMax);
+		}
+	}
 }
