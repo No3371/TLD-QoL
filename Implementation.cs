@@ -215,16 +215,42 @@ namespace QoL
 		{
 			if (__instance.IsHarvestingOrQuartering()) return;
 
+
+			if (InputManager.GetKeyDown(InputManager.m_CurrentContext, KeyCode.D)
+			 && KeyboardUtilities.InputManager.GetKey(Settings.options.bulkKey)
+			 && __instance.IsTabHarvestSelected()
+			 && __instance.m_SelectedButtonIndex == 0)
+			{
+				__instance.OnIncreaseMeatHarvest();
+				__instance.OnIncreaseMeatHarvest();
+				__instance.OnIncreaseMeatHarvest();
+				__instance.OnIncreaseMeatHarvest();
+				return;
+			}
+			else if (InputManager.GetKeyDown(InputManager.m_CurrentContext, KeyCode.A)
+			 && KeyboardUtilities.InputManager.GetKey(Settings.options.bulkKey)
+			 && __instance.IsTabHarvestSelected()
+			 && __instance.m_SelectedButtonIndex == 0)
+			{
+				__instance.OnDecreaseMeatHarvest();
+				__instance.OnDecreaseMeatHarvest();
+				__instance.OnDecreaseMeatHarvest();
+				__instance.OnDecreaseMeatHarvest();
+				return;
+			}
+
 			if (InputManager.GetKeyDown(InputManager.m_CurrentContext, KeyCode.D)
 			 && KeyboardUtilities.InputManager.GetKey(Settings.options.modifierKey)
-			 && __instance.IsTabHarvestSelected())
+			 && __instance.IsTabHarvestSelected()
+			 && __instance.m_HarvestTabButtonRight.active)
 			{
 				__instance.OnTabQuarterSelected();
 				return;
 			}
             else if (InputManager.GetKeyDown(InputManager.m_CurrentContext, KeyCode.A)
 			 && KeyboardUtilities.InputManager.GetKey(Settings.options.modifierKey)
-			 && __instance.IsTabQuarterSelected())
+			 && __instance.IsTabQuarterSelected()
+			 && __instance.m_HarvestTabButtonLeft.active)
 			{
 				__instance.OnTabHarvestSelected();
 				return;
