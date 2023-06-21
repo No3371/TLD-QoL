@@ -60,6 +60,9 @@ namespace QoL
 		[Description("The maximum search time scale.")]
 		[Slider(0.4f, 3f)]
 		public float containterSearchTimeScaleMax = 1f;
+
+		[Name("Crafting Hot Key")]
+		public KeyCode craftingHotkey = KeyCode.X;
 	}
 	internal static class Settings
 	{
