@@ -137,16 +137,16 @@ namespace QoL
 		private static void Postfix(Panel_IceFishingHoleClear __instance)
 		{
 			if (__instance.IsClearingIce()) return;
-			if (InputManager.GetKeyDown(InputManager.m_CurrentContext, Settings.options.interactKey))
+			if (KeyboardUtilities.InputManager.GetKeyDown(Settings.options.interactKey))
 			{
 				__instance.OnBreakIce();
 				return;
 			}
-            if (InputManager.GetKeyDown(InputManager.m_CurrentContext, KeyCode.A) || InputManager.GetScroll(InputManager.m_CurrentContext) > 0)
+            if (KeyboardUtilities.InputManager.GetKeyDown(KeyCode.A) || InputManager.GetScroll(InputManager.m_CurrentContext) > 0)
 			{
 				__instance.PrevTool();
 			}
-            else if (InputManager.GetKeyDown(InputManager.m_CurrentContext, KeyCode.D) || InputManager.GetScroll(InputManager.m_CurrentContext) < 0)
+            else if (KeyboardUtilities.InputManager.GetKeyDown(KeyCode.D) || InputManager.GetScroll(InputManager.m_CurrentContext) < 0)
 			{
 				__instance.NextTool();
 			}
@@ -249,8 +249,7 @@ namespace QoL
 			}
             else if (InputManager.GetKeyDown(InputManager.m_CurrentContext, KeyCode.A)
 			 && KeyboardUtilities.InputManager.GetKey(Settings.options.modifierKey)
-			 && __instance.IsTabQuarterSelected()
-			 && __instance.m_HarvestTabButtonLeft.active)
+			 && __instance.IsTabQuarterSelected())
 			{
 				__instance.OnTabHarvestSelected();
 				return;
@@ -270,8 +269,8 @@ namespace QoL
 				__instance.OnToolPrev();
             else if (InputManager.GetScroll(InputManager.m_CurrentContext) < 0)
 				__instance.OnToolNext();
-			}
 		}
+	}
 
 	[HarmonyPatch(typeof(Panel_FireStart), nameof(Panel_FireStart.Update))]
 	internal class AlternativeStartFire
@@ -385,10 +384,10 @@ namespace QoL
 		}
 	}
 
-	[HarmonyPatch(typeof(Panel_Cooking), nameof(Panel_Cooking.Update))]
+	[HarmonyPatch(typeof(Panel_CookWater), nameof(Panel_CookWater.Update))]
 	internal class AlternativeCook
 	{
-		private static void Postfix(ref Panel_Cooking __instance)
+		private static void Postfix(Panel_CookWater __instance)
 		{
 			if (InputManager.GetKeyDown(InputManager.m_CurrentContext, Settings.options.interactKey))
 			{
@@ -396,8 +395,6 @@ namespace QoL
 					__instance.OnMeltSnow();
 				else if (__instance.SelectedFoodIsWater())
 					__instance.OnBoil();
-				else
-					__instance.OnCook();
 			}
 		}
 	}
@@ -405,7 +402,7 @@ namespace QoL
 	[HarmonyPatch(typeof(Panel_SprayPaint), nameof(Panel_SprayPaint.Update))]
 	internal class SprayADScrollAndAlternativeConfirmSprayShape
 	{
-		private static void Postfix(ref Panel_SprayPaint __instance)
+		private static void Postfix(Panel_SprayPaint __instance)
 		{
 			if (InputManager.GetKeyDown(InputManager.m_CurrentContext, Settings.options.interactKey))
 			{
@@ -448,7 +445,7 @@ namespace QoL
 				{
 					var singleGI = gi.Drop(1);
 					__instance.OnBack();
-					singleGI.TryStartPlaceMeshInteraction();
+					GameManager.GetPlayerManagerComponent().StartPlaceMesh(singleGI.gameObject, PlaceMeshFlags.UpdateInventoryOnSuccess);
 					return;
 				}
 				else
@@ -700,9 +697,9 @@ namespace QoL
 	[HarmonyPatch(typeof(Panel_Crafting), nameof(Panel_Crafting.Update))]
 	internal class AlternatvieCraft
 	{
-		private static void Postfix(ref Panel_Crafting __instance)
+		private static void Postfix(Panel_Crafting __instance)
 		{
-			if (__instance.m_CraftingInProgress) return;
+			if (__instance.m_CraftingOperation?.InProgress ?? false) return;
 
 			if (InputManager.GetKeyDown(InputManager.m_CurrentContext, Settings.options.interactKey))
 			{
@@ -800,11 +797,11 @@ namespace QoL
 		}
 	}
 
-	[HarmonyPatch(typeof(Panel_Cooking), nameof(Panel_Cooking.OnMeltSnowUp))]
+	[HarmonyPatch(typeof(Panel_CookWater), nameof(Panel_CookWater.OnMeltSnowUp))]
 	internal class BulkIncreaseMeltUnits
 	{
 		static int count = 0;
-		private static void Postfix(ref Panel_Cooking __instance)
+		private static void Postfix(Panel_CookWater __instance)
 		{
 			if (!KeyboardUtilities.InputManager.GetKey(Settings.options.bulkKey)) return;
 			if (count++ >= 4) count = 0;
@@ -813,11 +810,11 @@ namespace QoL
 		}
 	}
 
-	[HarmonyPatch(typeof(Panel_Cooking), nameof(Panel_Cooking.OnMeltSnowDown))]
+	[HarmonyPatch(typeof(Panel_CookWater), nameof(Panel_CookWater.OnMeltSnowDown))]
 	internal class BulkDecreaseMeltUnits
 	{
 		static int count = 0;
-		private static void Postfix(ref Panel_Cooking __instance)
+		private static void Postfix(Panel_CookWater __instance)
 		{
 			if (!KeyboardUtilities.InputManager.GetKey(Settings.options.bulkKey)) return;
 			if (count++ >= 4) count = 0;
@@ -830,7 +827,7 @@ namespace QoL
 	internal class BulkSelectFoodUp
 	{
 		static int count = 0;
-		private static void Postfix(ref Panel_Cooking __instance)
+		private static void Postfix(Panel_Cooking __instance)
 		{
 			if (!KeyboardUtilities.InputManager.GetKey(Settings.options.bulkKey)) return;
 			if (count++ >= 4) count = 0;
@@ -843,7 +840,7 @@ namespace QoL
 	internal class BulkSelectFoodDown
 	{
 		static int count = 0;
-		private static void Postfix(ref Panel_Cooking __instance)
+		private static void Postfix(Panel_Cooking __instance)
 		{
 			if (!KeyboardUtilities.InputManager.GetKey(Settings.options.bulkKey)) return;
 			if (count++ >= 4) count = 0;
@@ -852,11 +849,11 @@ namespace QoL
 		}
 	}
 
-	[HarmonyPatch(typeof(Panel_Cooking), nameof(Panel_Cooking.OnWaterUp))]
+	[HarmonyPatch(typeof(Panel_CookWater), nameof(Panel_CookWater.OnWaterUp))]
 	internal class BulkIncreaseCookingWaterUnits
 	{
 		static int count = 0;
-		private static void Postfix(Panel_Cooking __instance)
+		private static void Postfix(Panel_CookWater __instance)
 		{
 			if (!KeyboardUtilities.InputManager.GetKey(Settings.options.bulkKey)) return;
 			if (count++ >= 4) count = 0;
@@ -865,11 +862,11 @@ namespace QoL
 		}
 	}
 
-	[HarmonyPatch(typeof(Panel_Cooking), nameof(Panel_Cooking.OnWaterDown))]
+	[HarmonyPatch(typeof(Panel_CookWater), nameof(Panel_CookWater.OnWaterDown))]
 	internal class BulkDecreaseCookingWaterUnits
 	{
 		static int count = 0;
-		private static void Postfix(Panel_Cooking __instance)
+		private static void Postfix(Panel_CookWater __instance)
 		{
 			if (!KeyboardUtilities.InputManager.GetKey(Settings.options.bulkKey)) return;
 			if (count++ >= 4) count = 0;
@@ -878,11 +875,11 @@ namespace QoL
 		}
 	}
 
-	[HarmonyPatch(typeof(Panel_Cooking), nameof(Panel_Cooking.OnBoilUp))]
+	[HarmonyPatch(typeof(Panel_CookWater), nameof(Panel_CookWater.OnBoilUp))]
 	internal class BulkIncreaseBoilUnits
 	{
 		static int count = 0;
-		private static void Postfix(Panel_Cooking __instance)
+		private static void Postfix(Panel_CookWater __instance)
 		{
 			if (!KeyboardUtilities.InputManager.GetKey(Settings.options.bulkKey)) return;
 			if (count++ >= 4) count = 0;
@@ -891,11 +888,11 @@ namespace QoL
 		}
 	}
 
-	[HarmonyPatch(typeof(Panel_Cooking), nameof(Panel_Cooking.OnBoilDown))]
+	[HarmonyPatch(typeof(Panel_CookWater), nameof(Panel_CookWater.OnBoilDown))]
 	internal class BulkDecreaseBoilUnits
 	{
 		static int count = 0;
-		private static void Postfix(Panel_Cooking __instance)
+		private static void Postfix(Panel_CookWater __instance)
 		{
 			if (!KeyboardUtilities.InputManager.GetKey(Settings.options.bulkKey)) return;
 			if (count++ >= 4) count = 0;
@@ -1075,21 +1072,6 @@ namespace QoL
 				lastExecuted = lastOpened;
 				return;
 			}
-
-			// if (KeyboardUtilities.InputManager.GetKey(Settings.options.bulkKey)
-			//  && InputManager.GetKeyDown(InputManager.m_CurrentContext, KeyCode.A))
-			// {
-			// 	__instance.m_numUnits = Mathf.Max(0, __instance.m_numUnits - 4);
-			// }
-			// else if (KeyboardUtilities.InputManager.GetKey(Settings.options.bulkKey)
-			//  && InputManager.GetKeyDown(InputManager.m_CurrentContext, KeyCode.D))
-			// {
-			// 	__instance.m_numUnits = Mathf.Min(__instance.m_maxUnits, __instance.m_numUnits + 4);
-			// 	// __instance.OnIncrease();
-			// 	// __instance.OnIncrease();
-			// 	// __instance.OnIncrease();
-			// 	// __instance.OnIncrease();
-			// }
 		}
 	}
 
@@ -1263,10 +1245,6 @@ namespace QoL
 			foreach (var i in cache)
 			{
 				i.Degrade(i.GearItemData.MaxHP * 0.000005f);
-				if (i.GetNormalizedCondition() == 0)
-				{
-					__instance.DestroyGear(i);
-				}
 			}
         }
 	}
