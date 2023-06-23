@@ -437,7 +437,7 @@ namespace QoL
 	[HarmonyPatch(typeof(Panel_FeedFire), nameof(Panel_FeedFire.Update))]
 	internal class AlternativeFeedFire
 	{
-		private static void Postfix(ref Panel_FeedFire __instance)
+		private static void Postfix(Panel_FeedFire __instance)
 		{
 			if (__instance.IsDoingAction() || Time.frameCount - FeedFireUITracker.lastEntered < 30) return;
 			if (InputManager.GetKeyDown(InputManager.m_CurrentContext, Settings.options.interactKey))
@@ -465,7 +465,7 @@ namespace QoL
 	[HarmonyPatch(typeof(Panel_TorchLight), nameof(Panel_TorchLight.Update))]
 	internal class AlternativeLightTorch
 	{
-		private static void Postfix(ref Panel_TorchLight __instance)
+		private static void Postfix(Panel_TorchLight __instance)
 		{
 			if (InputManager.GetKeyDown(InputManager.m_CurrentContext, Settings.options.interactKey))
 			{
@@ -475,7 +475,7 @@ namespace QoL
 	}
 
 	[HarmonyPatch(typeof(Panel_CookWater), nameof(Panel_CookWater.Update))]
-	internal class AlternativeCook
+	internal class AlternativeCookWater
 	{
 		private static void Postfix(Panel_CookWater __instance)
 		{
