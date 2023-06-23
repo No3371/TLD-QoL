@@ -519,9 +519,11 @@ namespace QoL
 				if (KeyboardUtilities.InputManager.GetKey(Settings.options.modifierKey)
 				&& !KeyboardUtilities.InputManager.GetKey(Settings.options.bulkKey))
 				{
-					var singleGI = gi.Drop(1);
+					var toDrop = gi?.m_StackableItem?.m_UnitsPerItem ?? 1;
+					toDrop = Mathf.Clamp(toDrop, 0, gi?.m_StackableItem?.m_Units?? 1);
+					var dropped = gi.Drop(toDrop);
 					__instance.OnBack();
-					GameManager.GetPlayerManagerComponent().StartPlaceMesh(singleGI.gameObject, PlaceMeshFlags.UpdateInventoryOnSuccess);
+					dropped.PerformAlternativeInteraction();
 					return;
 				}
 				else
