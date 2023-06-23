@@ -293,6 +293,29 @@ namespace QoL
 			}
 
 			if (InputManager.GetKeyDown(InputManager.m_CurrentContext, KeyCode.D)
+			 && KeyboardUtilities.InputManager.GetKey(Settings.options.bulkKey)
+			 && __instance.IsTabHarvestSelected()
+			 && __instance.m_SelectedButtonIndex == 2)
+			{
+				__instance.OnIncreaseGutHarvest();
+				__instance.OnIncreaseGutHarvest();
+				__instance.OnIncreaseGutHarvest();
+				__instance.OnIncreaseGutHarvest();
+				return;
+			}
+			else if (InputManager.GetKeyDown(InputManager.m_CurrentContext, KeyCode.A)
+			 && KeyboardUtilities.InputManager.GetKey(Settings.options.bulkKey)
+			 && __instance.IsTabHarvestSelected()
+			 && __instance.m_SelectedButtonIndex == 2)
+			{
+				__instance.OnDecreaseGutHarvest();
+				__instance.OnDecreaseGutHarvest();
+				__instance.OnDecreaseGutHarvest();
+				__instance.OnDecreaseGutHarvest();
+				return;
+			}
+
+			if (InputManager.GetKeyDown(InputManager.m_CurrentContext, KeyCode.D)
 			 && KeyboardUtilities.InputManager.GetKey(Settings.options.modifierKey)
 			 && __instance.IsTabHarvestSelected()
 			 && __instance.m_HarvestTabButtonRight.active)
