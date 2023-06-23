@@ -448,6 +448,20 @@ namespace QoL
 		}
 	}
 
+	[HarmonyPatch(typeof(Panel_Cooking), nameof(Panel_Cooking.Update))]
+	internal class AlternativeCook
+	{
+		private static void Postfix(Panel_Cooking __instance)
+		{
+			if (__instance.m_RecipePrepOperation.InProgress) return;
+			if ( InputManager.GetKeyDown(InputManager.m_CurrentContext, Settings.options.interactKey))
+			{
+				__instance.OnCook();
+				return;
+			}
+		}
+	}
+
 	[HarmonyPatch(typeof(Panel_TorchLight), nameof(Panel_TorchLight.Update))]
 	internal class AlternativeLightTorch
 	{
