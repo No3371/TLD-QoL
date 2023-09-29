@@ -454,10 +454,21 @@ namespace QoL
 		private static void Postfix(Panel_Cooking __instance)
 		{
 			if (__instance.m_RecipePrepOperation.InProgress) return;
-			if ( InputManager.GetKeyDown(InputManager.m_CurrentContext, Settings.options.interactKey))
+			if (InputManager.GetKeyDown(InputManager.m_CurrentContext, Settings.options.interactKey))
 			{
 				__instance.OnCook();
 				return;
+			}
+
+			if (InputManager.GetKeyDown(InputManager.m_CurrentContext, KeyCode.W)
+			 && KeyboardUtilities.InputManager.GetKey(Settings.options.modifierKey))
+			{
+				__instance.m_CategoryNavigation.OnNavigateUp();
+			}
+			else if (InputManager.GetKeyDown(InputManager.m_CurrentContext, KeyCode.S)
+			 && KeyboardUtilities.InputManager.GetKey(Settings.options.modifierKey))
+			{
+				__instance.m_CategoryNavigation.OnNavigateDown();
 			}
 		}
 	}
