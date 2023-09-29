@@ -386,13 +386,13 @@ namespace QoL
 				switch (__instance.m_SelectedButtonIndex)
 				{
 					case 0:
-						__instance.OnUse();
+						if (!__instance.m_SnowShelter.IsRuined()) __instance.OnUse();
 						break;
 					case 1:
-						__instance.OnRepair();
+						if (__instance.m_SnowShelter.IsRuined()) __instance.OnRepair();
 						break;
 					case 2:
-						__instance.OnDismantle();
+						if (__instance.m_SnowShelter.m_AllowDismantle) __instance.OnDismantle();
 						break;
 
 				}
