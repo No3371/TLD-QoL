@@ -30,7 +30,7 @@ Reduce UI frustration, even make it pleasant to use. You can now use keyboard mo
     - ![](https://imgur.com/YWmLUtC.gif)
 - **Fast Pickup**: Directly pick up items by holding **Interact**/**AlternativeInteract** for a bit (Default: 0.3 ~ 1 seconds) then release.
     - The triggering duration can be configured.
-- **BulkPickUnits**: Hold the **Bulk** Key to increase/decrease the units by 5.
+- **BulkPickUnits**: Hold the **Bulk** Key to increase/decrease the units by 5. (now only works with keyboard)
     - ![](https://imgur.com/JCACe0R.gif)
 - **A/D & Scroll Selection**
     - ![](https://imgur.com/7O89m10.gif)
@@ -87,7 +87,7 @@ https://github.com/No3371/TLD-QoL/assets/1814971/92e50a92-107f-407c-ae1d-1501f15
     - Also scale up LOD size for animals and carcasses by 50% if the tweak is enabled (configured value > 1)
 
 - **Void Trash Cans**
-    - When enabled, Items in trash cans decay pretty fast and will be destoryed when it's ruined.
+    - When enabled, Items in trash cans decay very fast.
     - (Not very immersive, but helps with dealing with some unwanted items, especially in modded games)
 
 - **Container Open Time Tweak**
