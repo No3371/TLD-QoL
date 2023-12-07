@@ -541,11 +541,11 @@ namespace QoL
             if (InputManager.GetKeyDown(InputManager.m_CurrentContext, Settings.options.dropKey))
 			{
 				var gi = __instance.GetCurrentlySelectedGearItem();
-				if (gi.m_CantDropItem) return;
+				if (gi == null || gi.m_CantDropItem) return;
 				if (KeyboardUtilities.InputManager.GetKey(Settings.options.modifierKey)
 				&& !KeyboardUtilities.InputManager.GetKey(Settings.options.bulkKey))
 				{
-					var toDrop = gi?.m_StackableItem?.m_UnitsPerItem ?? 1;
+					var toDrop = gi.m_StackableItem?.DefaultUnitsInItem ?? 1;
 					toDrop = Mathf.Clamp(toDrop, 0, gi?.m_StackableItem?.m_Units?? 1);
 					var dropped = gi.Drop(toDrop);
 					__instance.OnBack();
