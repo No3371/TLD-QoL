@@ -56,10 +56,20 @@ namespace QoL
 		[Description("Shortening the time to search containers. For example, by default a container with 3 items will cost 60% of the default time to search.")]
 		public float containterSearchTimeScalePerItem = 0.2f;
 
+		[Name("Container Search Time Min")]
+		[Description("The minimum search time scale.")]
+		[Slider(0.1f, 1f)]
+		public float containterSearchTimeScaleMin = 0.1f;
+
 		[Name("Container Search Time Max")]
 		[Description("The maximum search time scale.")]
 		[Slider(0.4f, 3f)]
 		public float containterSearchTimeScaleMax = 1f;
+
+		[Name("Container Search Time Variance")]
+		[Description("Random variance in search time scale.")]
+		[Slider(0.0f, 1f)]
+		public float containterSearchTimeScaleVar = 0.2f;
 
 		[Name("Crafting Hot Key")]
 		public KeyCode craftingHotkey = KeyCode.X;
