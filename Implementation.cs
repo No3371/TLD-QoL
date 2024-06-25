@@ -761,19 +761,13 @@ namespace QoL
 			if (InputManager.GetKeyDown(InputManager.m_CurrentContext, KeyCode.W)
 			 && KeyboardUtilities.InputManager.GetKey(Settings.options.bulkKey))
 			{
-				// __instance.m_CurrentBlueprintIndex -= 4;
-				// __instance.m_CurrentBlueprintIndex = Math.Clamp((int) __instance.m_CurrentBlueprintIndex, 0, __instance.m_BlueprintDisplays.Count - 1);
-				__instance.HandleVerticalNavigation(1);__instance.HandleVerticalNavigation(1);__instance.HandleVerticalNavigation(1);
-			 	// __instance.OnBlueprintDisplayClicked(__instance.m_CurrentBlueprintIndex);
+				__instance.m_ScrollBehaviour.SetSelectedIndex(Mathf.Max(0, __instance.m_ScrollBehaviour.SelectedIndex - 4));
 				return;
 			}
 			else if (InputManager.GetKeyDown(InputManager.m_CurrentContext, KeyCode.S)
 			 && KeyboardUtilities.InputManager.GetKey(Settings.options.bulkKey))
 			{
-				// __instance.m_CurrentBlueprintIndex += 4;
-				// __instance.m_CurrentBlueprintIndex = Math.Clamp((int) __instance.m_CurrentBlueprintIndex, 0, __instance.m_BlueprintDisplays.Count - 1);
-			 	// __instance.OnBlueprintDisplayClicked(__instance.m_CurrentBlueprintIndex);
-				__instance.HandleVerticalNavigation(-1);__instance.HandleVerticalNavigation(-1);__instance.HandleVerticalNavigation(-1);
+				__instance.m_ScrollBehaviour.SetSelectedIndex(Mathf.Min(__instance.m_ScrollBehaviour.m_TotalItems - 1, __instance.m_ScrollBehaviour.m_TotalItems + 4));
 				return;
 			}
 
@@ -874,29 +868,21 @@ namespace QoL
 		}
 	}
 
-	[HarmonyPatch(typeof(Panel_Cooking), nameof(Panel_Cooking.ScrollUp))]
+	[HarmonyPatch(typeof(Panel_Cooking), nameof(Panel_Cooking.Update))]
 	internal class BulkSelectFoodUp
 	{
 		static int count = 0;
 		private static void Postfix(Panel_Cooking __instance)
 		{
 			if (!KeyboardUtilities.InputManager.GetKey(Settings.options.bulkKey)) return;
-			if (count++ >= 4) count = 0;
-			else 
-				__instance.ScrollUp();
-		}
-	}
-
-	[HarmonyPatch(typeof(Panel_Cooking), nameof(Panel_Cooking.ScrollDown))]
-	internal class BulkSelectFoodDown
-	{
-		static int count = 0;
-		private static void Postfix(Panel_Cooking __instance)
-		{
-			if (!KeyboardUtilities.InputManager.GetKey(Settings.options.bulkKey)) return;
-			if (count++ >= 4) count = 0;
-			else 
-				__instance.ScrollDown();
+            if (InputManager.GetScroll(InputManager.m_CurrentContext) > 0)
+			{
+				__instance.m_ScrollBehaviour.SetSelectedIndex(Mathf.Max(0, __instance.m_ScrollBehaviour.SelectedIndex - 5));
+			}
+            else if (InputManager.GetScroll(InputManager.m_CurrentContext) < 0 && __instance.m_ScrollBehaviour.m_TotalItems > 0f)
+			{
+				__instance.m_ScrollBehaviour.SetSelectedIndex(Mathf.Min(__instance.m_ScrollBehaviour.m_TotalItems - 1, __instance.m_ScrollBehaviour.m_TotalItems + 5));
+			}
 		}
 	}
 
