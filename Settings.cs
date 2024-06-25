@@ -70,9 +70,6 @@ namespace QoL
 		[Description("Random variance in search time scale.")]
 		[Slider(0.0f, 1f)]
 		public float containterSearchTimeScaleVar = 0.2f;
-
-		[Name("Crafting Hot Key")]
-		public KeyCode craftingHotkey = KeyCode.X;
 	}
 	internal static class Settings
 	{

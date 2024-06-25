@@ -19,59 +19,6 @@ namespace QoL
 				Settings.options.interactKey = KeyCode.Insert;
 			}
 		}
-
-        public override void OnUpdate()
-        {
-			if (InputManager.GetKeyDown(InputManager.m_CurrentContext, Settings.options.craftingHotkey))
-			{
-				Panel_Crafting craftingPanel = InterfaceManager.GetPanel<Panel_Crafting>();
-				if (craftingPanel == null || uConsole.IsOn()) return;
-				if (craftingPanel.IsEnabled() && !(craftingPanel.m_CraftingOperation?.InProgress ?? false))
-				{
-					craftingPanel.OnBackButton();
-					return;
-				}
-				else
-				{
-					Panel_FirstAid firstAid = InterfaceManager.GetPanel<Panel_FirstAid>();
-					if (firstAid != null && firstAid.IsEnabled())
-					{
-						firstAid.m_MiniTopNav.transform.FindChild("SpriteCrafting")?.GetComponent<MiniTopNavButton>()?.OnButtonClick();
-						return;
-					}
-					Panel_Clothing clothing = InterfaceManager.GetPanel<Panel_Clothing>();
-					if (clothing != null && clothing.IsEnabled())
-					{
-						clothing.m_MiniTopNav.transform.FindChild("SpriteCrafting")?.GetComponent<MiniTopNavButton>()?.OnButtonClick();
-						return;
-					}
-					Panel_Inventory inventory = InterfaceManager.GetPanel<Panel_Inventory>();
-					if (inventory != null && inventory.IsEnabled())
-					{
-						inventory.m_MiniTopNav.transform.FindChild("SpriteCrafting")?.GetComponent<MiniTopNavButton>()?.OnButtonClick();
-						return;
-					}
-					Panel_Log journal = InterfaceManager.GetPanel<Panel_Log>();
-					if (journal != null && journal.IsEnabled() && journal.m_ReadyForInput)
-					{
-						journal.m_MiniTopNav.transform.FindChild("SpriteCrafting")?.GetComponent<MiniTopNavButton>()?.OnButtonClick();
-						return;
-					}
-					Panel_Map map = InterfaceManager.GetPanel<Panel_Map>();
-					if (map != null && (map.IsEnabled() || !InterfaceManager.IsOverlayActiveImmediate()))
-					{
-						map.m_MiniTopNav.transform.FindChild("SpriteCrafting")?.GetComponent<MiniTopNavButton>()?.OnButtonClick();
-						return;
-					}
-					Panel_RecipeBook rBook = InterfaceManager.GetPanel<Panel_RecipeBook>();
-					if (rBook != null && (rBook.IsEnabled() || !InterfaceManager.IsOverlayActiveImmediate()))
-					{
-						rBook.m_MiniTopNav.transform.FindChild("SpriteCrafting")?.GetComponent<MiniTopNavButton>()?.OnButtonClick();
-						return;
-					}
-				}
-			}
-        }
     }
 
 	[HarmonyPatch(typeof(Panel_GearSelect), nameof(Panel_GearSelect.Update))]
