@@ -34,5 +34,5 @@ using System.Runtime.InteropServices;
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("1.6.4")]
 [assembly: AssemblyFileVersion("1.6.4")]
-[assembly: MelonInfo(typeof(QoL.Implementation), "QoL", "1.6.3", "BA")]
+[assembly: MelonInfo(typeof(QoL.Implementation), "QoL", "1.6.4", "BA")]
 [assembly: MelonGame("Hinterland", "TheLongDark")]
