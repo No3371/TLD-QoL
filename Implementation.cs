@@ -62,6 +62,7 @@ namespace QoL
 		}
 	}
 
+
 	[HarmonyPatch(typeof(Panel_GearSelect), nameof(Panel_GearSelect.Update))]
 	internal class GearSelectADScroll
 	{
@@ -528,7 +529,7 @@ namespace QoL
 			}
             if (InputManager.GetKeyDown(InputManager.m_CurrentContext, Settings.options.dropKey))
 			{
-				var gi = __instance.GetCurrentlySelectedGearItem();
+				var gi = __instance.GetCurrentlySelectedItem().m_GearItem;
 				if (gi == null || gi.m_CantDropItem) return;
 				if (KeyboardUtilities.InputManager.GetKey(Settings.options.modifierKey)
 				&& !KeyboardUtilities.InputManager.GetKey(Settings.options.bulkKey))
@@ -705,7 +706,6 @@ namespace QoL
 	[HarmonyPatch(typeof(Panel_Inventory_Examine), nameof(Panel_Inventory_Examine.Update))]
 	internal class ExaminePlus
 	{
-		
 		private static void Postfix(Panel_Inventory_Examine __instance)
 		{
 			if (__instance.IsCleaning() || __instance.IsRepairing() || __instance.IsHarvesting() ||__instance.IsReading() || __instance.IsSharpening() || __instance.m_ActionInProgressWindow.active || InterfaceManager.GetPanel<Panel_GenericProgressBar>().isActiveAndEnabled)
@@ -714,34 +714,34 @@ namespace QoL
 			if (InputManager.GetKeyDown(InputManager.m_CurrentContext, Settings.options.interactKey))
 			{
 				if (__instance.m_MenuItemHarvest != null && __instance.m_MenuItemHarvest.m_Selected && __instance.m_Button_Harvest.enabled && __instance.CanHarvest())
-					if (__instance.m_ActionToolSelect.active)
+					if (__instance.m_ToolWindowActive)
 						__instance.OnSelectActionTool();
 					else
 						__instance.OnHarvest();
 				else if (__instance.m_MenuItemSharpen != null && __instance.m_MenuItemSharpen.m_Selected && __instance.m_Button_Sharpen.enabled)
 				{
-					if (__instance.m_ActionToolSelect.active)
+					if (__instance.m_ToolWindowActive)
 						__instance.OnSelectActionTool();
 					else
 						__instance.OnSharpen();
 				}
 				else if (__instance.m_MenuItemRepair != null && __instance.m_MenuItemRepair.m_Selected && __instance.m_Button_Repair.enabled && __instance.CanRepair())
 				{
-					if (__instance.m_ActionToolSelect.active)
+					if (__instance.m_ToolWindowActive)
 						__instance.OnSelectActionTool();
 					else
 						__instance.OnRepair();
 				}
 				else if (__instance.m_MenuItemClean != null && __instance.m_MenuItemClean.m_Selected && __instance.m_Button_Clean.enabled)
 				{
-					if (__instance.m_ActionToolSelect.active)
+					if (__instance.m_ToolWindowActive)
 						__instance.OnSelectActionTool();
 					else
 						__instance.OnClean();
 				}
 				else if (__instance.m_MenuItemRefuel != null && __instance.m_MenuItemRefuel.m_Selected && __instance.m_Button_Refuel.enabled && __instance.CanRefuel() && __instance.m_RefuelPanel.active)
 				{
-					if (__instance.m_ActionToolSelect.active)
+					if (__instance.m_ToolWindowActive)
 						__instance.OnSelectActionTool();
 					else
 						__instance.OnRefuel();
@@ -1116,6 +1116,8 @@ namespace QoL
 		internal static int lastOpened, lastExecuted;
 		static void Postfix (Panel_PickUnits __instance)
 		{
+			if (__instance.isActiveAndEnabled == false)
+				return;
 			if (KeyboardUtilities.InputManager.GetKey(Settings.options.bulkKey)
 			 && InputManager.GetKeyDown(InputManager.m_CurrentContext, KeyCode.A))
 			{
@@ -1138,10 +1140,11 @@ namespace QoL
 			}
 
 			if (lastOpened <= lastExecuted) return;
-			if (KeyboardUtilities.InputManager.GetKey(Settings.options.bulkKey)
+			if (KeyboardUtilities.InputManager.GetKey(Settings.options.interactKey)
+			 && KeyboardUtilities.InputManager.GetKey(Settings.options.bulkKey)
 			 && !KeyboardUtilities.InputManager.GetKey(Settings.options.modifierKey))
 			{
-				if (Time.frameCount - lastOpened != 1) return;
+				if (Time.frameCount - lastOpened <= 1) return;
 				__instance.OnExecuteAll();
 				lastExecuted = lastOpened;
 				return;
@@ -1174,6 +1177,7 @@ namespace QoL
 		}
 	}
 
+	// ! Does not get called now (Inlined?)
 	[HarmonyPatch(typeof(Panel_PickUnits), nameof(Panel_PickUnits.SetGearForDrop))]
 	internal class PickUnitsToDrop
 	{
