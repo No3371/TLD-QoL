@@ -519,7 +519,7 @@ namespace QoL
 			if (__instance.m_ItemDescriptionPage.m_ProgressBar.IsEnabled()) return;
 			if (InputManager.GetKeyDown(InputManager.m_CurrentContext, Settings.options.interactKey))
 			{
-				if (KeyboardUtilities.InputManager.GetKey(Settings.options.modifierKey))
+				if (__instance.m_ItemDescriptionPage.m_MouseButtonExamine.active && KeyboardUtilities.InputManager.GetKey(Settings.options.modifierKey))
 				{
 					__instance.OnExamine();
 				}
