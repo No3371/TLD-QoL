@@ -918,13 +918,14 @@ namespace QoL
 		private static void Postfix(Panel_Cooking __instance)
 		{
 			if (!KeyboardUtilities.InputManager.GetKey(Settings.options.bulkKey)) return;
-            if (InputManager.GetScroll(InputManager.m_CurrentContext) > 0)
+            if (InputManager.GetScroll(InputManager.m_CurrentContext) > 0 || InputManager.GetKeyDown(InputManager.m_CurrentContext, KeyCode.W))
 			{
 				__instance.m_ScrollBehaviour.SetSelectedIndex(Mathf.Max(0, __instance.m_ScrollBehaviour.SelectedIndex - 5));
 			}
-            else if (InputManager.GetScroll(InputManager.m_CurrentContext) < 0 && __instance.m_ScrollBehaviour.m_TotalItems > 0f)
+            else if ((InputManager.GetKeyDown(InputManager.m_CurrentContext, KeyCode.S) || InputManager.GetScroll(InputManager.m_CurrentContext) < 0)
+				  && __instance.m_ScrollBehaviour.m_TotalItems > 0f)
 			{
-				__instance.m_ScrollBehaviour.SetSelectedIndex(Mathf.Min(__instance.m_ScrollBehaviour.m_TotalItems - 1, __instance.m_ScrollBehaviour.m_TotalItems + 5));
+				__instance.m_ScrollBehaviour.SetSelectedIndex(Mathf.Min(__instance.m_ScrollBehaviour.m_TotalItems - 1, __instance.m_ScrollBehaviour.SelectedIndex + 5));
 			}
 		}
 	}
