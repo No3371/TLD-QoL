@@ -70,6 +70,11 @@ namespace QoL
 		[Description("Random variance in search time scale.")]
 		[Slider(0.0f, 1f)]
 		public float containterSearchTimeScaleVar = 0.2f;
+
+		[Name("FPS Limit")]
+		[Description("Set max fps on game launch, if VSync is not off this gets overwritten by the game. Set to 0 to disable this.")]
+		[Slider(0, 360)]
+		public int fpsLimit = 0;
 	}
 	internal static class Settings
 	{

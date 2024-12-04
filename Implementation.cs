@@ -4,6 +4,7 @@ using Il2Cpp;
 using Il2CppTLD.UI;
 using MelonLoader;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 namespace QoL
 {
@@ -20,6 +21,19 @@ namespace QoL
 			}
 		}
     }
+
+	[HarmonyPatch(typeof(GameManager), "Awake", new Type[0])]
+	internal class SetFPS
+	{
+		private static void Postfix()
+		{
+			if (Settings.options.fpsLimit != 0)
+			{
+				Application.targetFrameRate = Settings.options.fpsLimit;
+				MelonLogger.Msg($"[QoL] Applied fpsLimit: {Settings.options.fpsLimit}");
+			}
+		}
+	}
 
 	[HarmonyPatch(typeof(Panel_GearSelect), nameof(Panel_GearSelect.Update))]
 	internal class GearSelectADScroll
