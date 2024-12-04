@@ -810,7 +810,7 @@ namespace QoL
 			else if (InputManager.GetKeyDown(InputManager.m_CurrentContext, KeyCode.S)
 			 && KeyboardUtilities.InputManager.GetKey(Settings.options.bulkKey))
 			{
-				__instance.m_ScrollBehaviour.SetSelectedIndex(Mathf.Min(__instance.m_ScrollBehaviour.m_TotalItems - 1, __instance.m_ScrollBehaviour.m_TotalItems + 4));
+				__instance.m_ScrollBehaviour.SetSelectedIndex(Mathf.Min(__instance.m_ScrollBehaviour.m_TotalItems - 1, __instance.m_ScrollBehaviour.SelectedIndex + 4));
 				return;
 			}
 
