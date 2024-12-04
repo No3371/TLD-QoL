@@ -19,9 +19,36 @@ namespace QoL
 			{
 				Settings.options.interactKey = KeyCode.Insert;
 			}
+
 		}
+
+        public override void OnLateInitializeMelon()
+        {
+			var eapiType = Type.GetType("ExamineActionsAPI.ExamineActionsAPI, ExamineActionsAPI");
+			if (eapiType != null)
+			{
+				EAPISupport.Instance = new EAPISupport(eapiType);
+			}
+        }
     }
 
+	internal class EAPISupport
+	{
+		internal static EAPISupport Instance { get; set; }
+
+        public Type EapiType { get; }
+		public EAPISupport (Type eapiType)
+		{
+            EapiType = eapiType;
+
+			
+			var methodInfo = AccessTools.FirstMethod(EapiType, mi => mi.Name == "TryPerformSelectedAction");
+			TryPerformAction = (EAPI_TryPerformActionDelegate) methodInfo.CreateDelegate(typeof(EAPI_TryPerformActionDelegate), AccessTools.FirstProperty(EapiType, pi => pi.Name == "Instance").GetValue(null));
+        }
+
+		internal delegate void EAPI_TryPerformActionDelegate ();
+        internal EAPI_TryPerformActionDelegate TryPerformAction { get; }
+	}
 	[HarmonyPatch(typeof(GameManager), "Awake", new Type[0])]
 	internal class SetFPS
 	{
@@ -723,6 +750,8 @@ namespace QoL
 					__instance.OnUnload();
 				else if (__instance.m_ReadPanel.active)
 					__instance.OnRead();
+				else
+					EAPISupport.Instance?.TryPerformAction();
 
 				return;
 			}
