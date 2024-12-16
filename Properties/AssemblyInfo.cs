@@ -1,4 +1,5 @@
 ﻿using MelonLoader;
+using QoL;
 using System.Reflection;
 using System.Runtime.InteropServices;
 
@@ -32,7 +33,7 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.6.4")]
-[assembly: AssemblyFileVersion("1.6.4")]
-[assembly: MelonInfo(typeof(QoL.Implementation), "QoL", "1.6.4", "BA")]
+[assembly: AssemblyVersion(Implementation.VERSION)]
+[assembly: AssemblyFileVersion(Implementation.VERSION)]
+[assembly: MelonInfo(typeof(QoL.Implementation), "QoL", Implementation.VERSION, "BA")]
 [assembly: MelonGame("Hinterland", "TheLongDark")]
