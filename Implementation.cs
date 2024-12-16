@@ -1120,14 +1120,35 @@ namespace QoL
 	// 	}
 	// }
 
+	// [HarmonyPatch(typeof(Panel_PickUnits), nameof(Panel_PickUnits.Enable))]
+	// internal class PickUnitsEnable
+	// {
+	// 	static void Postfix (Panel_PickUnits __instance, bool enable)
+	// 	{
+	// 		MelonLogger.Msg($"Panel_PickUnits.Enable ({enable})");
+	// 	}
+	// }
+
 	[HarmonyPatch(typeof(Panel_PickUnits), nameof(Panel_PickUnits.Update))]
 	internal class PickUnitsUpdate
 	{
-		internal static int lastOpened, lastExecuted;
+		internal static int lastOpened, lastOn, lastExecuted;
 		static void Postfix (Panel_PickUnits __instance)
 		{
-			if (__instance.isActiveAndEnabled == false)
-				return;
+			if (lastOn != Time.frameCount - 1) // Updated continuously when opened
+				lastOpened = Time.frameCount;
+			lastOn = Time.frameCount;
+			
+			if (lastOpened == Time.frameCount)
+			{
+				if (KeyboardUtilities.InputManager.GetKey(Settings.options.bulkKey))
+				{
+					lastExecuted = Time.frameCount;
+					__instance.OnExecuteAll();
+					return;
+				}
+			}
+
 			if (KeyboardUtilities.InputManager.GetKey(Settings.options.bulkKey)
 			 && InputManager.GetKeyDown(InputManager.m_CurrentContext, KeyCode.A))
 			{
@@ -1166,43 +1187,6 @@ namespace QoL
 				lastExecuted = lastOpened;
 				return;
 			}
-		}
-	}
-
-	[HarmonyPatch(typeof(Panel_PickUnits), nameof(Panel_PickUnits.SetGearForTransferToInventory))]
-	internal class PrePickUnitsToInventory
-	{
-		static void Postfix (Panel_PickUnits __instance)
-		{
-			PickUnitsUpdate.lastOpened = Time.frameCount;
-		}
-	}
-
-	[HarmonyPatch(typeof(Panel_PickUnits), nameof(Panel_PickUnits.SetGearForTransferToContainer))]
-	internal class PrePickUnitsToContainer
-	{
-		static void Postfix (Panel_PickUnits __instance)
-		{
-			PickUnitsUpdate.lastOpened = Time.frameCount;
-		}
-	}
-
-	// ! Does not get called now (Inlined?)
-	[HarmonyPatch(typeof(Panel_PickUnits), nameof(Panel_PickUnits.SetGearForDrop))]
-	internal class PickUnitsToDrop
-	{
-		static void Postfix (Panel_PickUnits __instance)
-		{
-			PickUnitsUpdate.lastOpened = Time.frameCount;
-		}
-	}
-
-	[HarmonyPatch(typeof(Panel_PickUnits), nameof(Panel_PickUnits.SetGearForHarvest))]
-	internal class PickUnitsToHarvest
-		{
-		static void Postfix (Panel_PickUnits __instance)
-		{
-			PickUnitsUpdate.lastOpened = Time.frameCount;
 		}
 	}
 
