@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using HarmonyLib;
 using Il2Cpp;
 using Il2CppTLD.UI;
@@ -535,8 +535,8 @@ namespace QoL
 				if (KeyboardUtilities.InputManager.GetKey(Settings.options.modifierKey)
 				&& !KeyboardUtilities.InputManager.GetKey(Settings.options.bulkKey))
 				{
-					if (GameManager.GetSafehouseManager().IsCustomizing())
-						GameManager.GetSafehouseManager().StopCustomizing();
+					if (GameManager.GetSafehouseManager()?.IsCustomizing() == true)
+						GameManager.GetSafehouseManager()?.StopCustomizing();
 					var toDrop = gi.m_StackableItem?.DefaultUnitsInItem ?? 1;
 					toDrop = Mathf.Clamp(toDrop, 0, gi?.m_StackableItem?.m_Units?? 1);
 					var dropped = gi.Drop(toDrop);
