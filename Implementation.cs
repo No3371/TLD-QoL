@@ -1148,7 +1148,7 @@ namespace QoL
 				return;
 			}
 
-			if (lastOpened <= lastExecuted) return;
+			// if (lastOpened <= lastExecuted) return;
 			if (KeyboardUtilities.InputManager.GetKey(Settings.options.interactKey)
 			 && KeyboardUtilities.InputManager.GetKey(Settings.options.bulkKey)
 			 && !KeyboardUtilities.InputManager.GetKey(Settings.options.modifierKey))
