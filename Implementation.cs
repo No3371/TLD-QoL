@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using HarmonyLib;
 using Il2Cpp;
 using Il2CppTLD.UI;
@@ -534,6 +534,8 @@ namespace QoL
 				if (KeyboardUtilities.InputManager.GetKey(Settings.options.modifierKey)
 				&& !KeyboardUtilities.InputManager.GetKey(Settings.options.bulkKey))
 				{
+					if (GameManager.GetSafehouseManager().IsCustomizing())
+						GameManager.GetSafehouseManager().StopCustomizing();
 					var toDrop = gi.m_StackableItem?.DefaultUnitsInItem ?? 1;
 					toDrop = Mathf.Clamp(toDrop, 0, gi?.m_StackableItem?.m_Units?? 1);
 					var dropped = gi.Drop(toDrop);
@@ -745,6 +747,13 @@ namespace QoL
 						__instance.OnSelectActionTool();
 					else
 						__instance.OnRefuel();
+				}
+				else if (__instance.m_MenuItemSafehouseCustomizationRepair != null && __instance.m_MenuItemSafehouseCustomizationRepair.m_Selected && __instance.m_Button_SafehouseCustomizationRepair.enabled && __instance.CanRepair() && __instance.m_SafehouseCustomizationRepairPanel.active)
+				{
+					if (__instance.m_ToolWindowActive)
+						__instance.OnSelectActionTool();
+					else
+						__instance.OnRepair();
 				}
 				else if (__instance.m_MenuItemUnload != null && __instance.m_MenuItemUnload.m_Selected && __instance.m_Button_Unload.enabled && __instance.m_RifleUnloadPanel.active)
 					__instance.OnUnload();
