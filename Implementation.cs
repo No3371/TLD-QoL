@@ -1,4 +1,4 @@
-using System.Collections;
+﻿
 using HarmonyLib;
 using Il2Cpp;
 using Il2CppTLD.UI;
@@ -1343,7 +1343,7 @@ namespace QoL
 			}
         }
 
-		static IEnumerator DelayedWarning ()
+		static System.Collections.IEnumerator DelayedWarning ()
 		{
 			yield return new WaitForSeconds(0.5f);
 			InterfaceManager.GetPanel<Panel_HUD>().DisplayWarningMessage("VOID TRASH CAN");
