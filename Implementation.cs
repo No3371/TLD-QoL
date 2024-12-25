@@ -15,7 +15,6 @@ namespace QoL
 		{
 			MelonLogger.Msg($"[{Info.Name}] Version {Info.Version} loaded!");
 			Settings.OnLoad();
-
 		}
 
         public override void OnLateInitializeMelon()
@@ -51,15 +50,29 @@ namespace QoL
         internal VoidDelegate OnNextSubAction { get; }
         internal VoidDelegate OnPreviousSubAction { get; }
 	}
+
 	[HarmonyPatch(typeof(GameManager), "Awake", new Type[0])]
-	internal class SetFPS
+	internal class SetFPS1
 	{
 		private static void Postfix()
 		{
 			if (Settings.options.fpsLimit != 0)
 			{
 				Application.targetFrameRate = Settings.options.fpsLimit;
-				MelonLogger.Msg($"[QoL] Applied fpsLimit: {Settings.options.fpsLimit}");
+				MelonLogger.Msg($"[QoL] Applied fpsLimit: {Settings.options.fpsLimit} (Awake)");
+			}
+		}
+	}
+
+	[HarmonyPatch(typeof(Panel_OptionsMenu), nameof(Panel_OptionsMenu.ApplyVsyncAndFramerateCap))]
+	internal class SetFPS2
+	{
+		private static void Postfix()
+		{
+			if (Settings.options.fpsLimit != 0)
+			{
+				Application.targetFrameRate = Settings.options.fpsLimit;
+				MelonLogger.Msg($"[QoL] Applied fpsLimit: {Settings.options.fpsLimit} (ApplyVsyncAndFramerateCap)");
 			}
 		}
 	}
