@@ -16,11 +16,6 @@ namespace QoL
 			MelonLogger.Msg($"[{Info.Name}] Version {Info.Version} loaded!");
 			Settings.OnLoad();
 
-			if (!Settings.options.stopResetAlternativeInteract && Settings.options.interactKey != KeyCode.Insert)
-			{
-				Settings.options.interactKey = KeyCode.Insert;
-			}
-
 		}
 
         public override void OnLateInitializeMelon()

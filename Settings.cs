@@ -31,11 +31,6 @@ namespace QoL
 		[Slider(0.8f, 2f)]
 		public float fastPickMax = 1f;
 
-		[Name("Stop Reseting Alternative Interact Key")]
-		[Description("The default is LMB before 1.3.2 which will cause issues")]
-
-		public bool stopResetAlternativeInteract;
-
 		[Name("GearItem LOD Size Scale")]
 		[Description("Adjust the distance an item becomes visible, could impact graphic performance.")]
 		[Slider(1f, 3f)]
