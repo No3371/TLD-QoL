@@ -39,11 +39,17 @@ namespace QoL
 
 			
 			var methodInfo = AccessTools.FirstMethod(EapiType, mi => mi.Name == "TryPerformSelectedAction");
-			TryPerformAction = (EAPI_TryPerformActionDelegate) methodInfo.CreateDelegate(typeof(EAPI_TryPerformActionDelegate), AccessTools.FirstProperty(EapiType, pi => pi.Name == "Instance").GetValue(null));
+			TryPerformAction = (VoidDelegate) methodInfo.CreateDelegate(typeof(VoidDelegate), AccessTools.FirstProperty(EapiType, pi => pi.Name == "Instance").GetValue(null));
+			methodInfo = AccessTools.FirstMethod(EapiType, mi => mi.Name == "OnNextSubAction");
+			OnNextSubAction = (VoidDelegate) methodInfo.CreateDelegate(typeof(VoidDelegate), AccessTools.FirstProperty(EapiType, pi => pi.Name == "Instance").GetValue(null));
+			methodInfo = AccessTools.FirstMethod(EapiType, mi => mi.Name == "OnPreviousSubAction");
+			OnPreviousSubAction = (VoidDelegate) methodInfo.CreateDelegate(typeof(VoidDelegate), AccessTools.FirstProperty(EapiType, pi => pi.Name == "Instance").GetValue(null));
         }
 
-		internal delegate void EAPI_TryPerformActionDelegate ();
-        internal EAPI_TryPerformActionDelegate TryPerformAction { get; }
+		internal delegate void VoidDelegate ();
+        internal VoidDelegate TryPerformAction { get; }
+        internal VoidDelegate OnNextSubAction { get; }
+        internal VoidDelegate OnPreviousSubAction { get; }
 	}
 	[HarmonyPatch(typeof(GameManager), "Awake", new Type[0])]
 	internal class SetFPS
@@ -779,6 +785,15 @@ namespace QoL
 						__instance.OnReadHoursIncrease();__instance.OnReadHoursIncrease();__instance.OnReadHoursIncrease();__instance.OnReadHoursIncrease();
 					}
 				}
+			}
+
+			if (InputManager.GetKeyDown(InputManager.m_CurrentContext, KeyCode.A))
+			{
+				EAPISupport.Instance?.OnPreviousSubAction();
+			}
+			else if (InputManager.GetKeyDown(InputManager.m_CurrentContext, KeyCode.D))
+			{
+				EAPISupport.Instance?.OnNextSubAction();
 			}
 		}
 	}
