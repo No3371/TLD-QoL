@@ -70,6 +70,16 @@ namespace QoL
 		[Description("Set max fps on game launch, if VSync is not off this gets overwritten by the game. Set to 0 to disable this.")]
 		[Slider(0, 360)]
 		public int fpsLimit = 0;
+
+		[Name("Container Weight Limit Scale")]
+		[Description("Scale container weight limit.")]
+		[Slider(0.5f, 5f, 46)]
+		public float containerWeightLimitScale = 1f;
+
+		[Name("Container Slot Limit Ratio")]
+		[Description("How many slot can be used in a container per kg limit. Set to 0 to disable this.")]
+		[Slider(0f, 10f, 101)]
+		public float containerSlotLimitRatio = 0f;
 	}
 	internal static class Settings
 	{

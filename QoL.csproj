@@ -78,6 +78,7 @@
         <Reference Include="Il2CppTLD.Stats" />
         <Reference Include="Il2CppTLD.TimeLib" />
         <Reference Include="Il2CppTLD.Trial" />
+        <Reference Include="Il2CppTLD.IntBackedUnit" />
         <Reference Include="Il2CppTLD.UserGeneratedContent" />
         <Reference Include="ModSettings">
           <HintPath>..\..\Mods\ModSettings.dll</HintPath>
