@@ -147,28 +147,6 @@ namespace QoL
 		}
 	}
 
-	// [HarmonyPatch(typeof(Panel_FirstAid), nameof(Panel_FirstAid.Update))]
-	// internal class FirstAidADScrollAndAlternativeFirstAid
-	// {
-	// 	private static void Postfix(ref Panel_FirstAid __instance)
-	// 	{
-	// 		if (InputManager.GetKeyDown(InputManager.m_CurrentContext, Settings.options.interactKey))
-	// 		{
-	// 			if (__instance.m_SelectedFAKButton != null)
-	// 				__instance.UseSelectedItem();
-	// 			return;
-	// 		}
-    //         if (InputManager.GetKeyDown(InputManager.m_CurrentContext, KeyCode.A))
-	// 		{
-	// 			__instance.SelectMainTreatment();
-	// 		}
-    //         else if (InputManager.GetKeyDown(InputManager.m_CurrentContext, KeyCode.D))
-	// 		{
-	// 			__instance.SelectAltTreatment();
-	// 		}
-	// 	}
-	// }
-
 	[HarmonyPatch(typeof(Panel_Affliction), nameof(Panel_Affliction.Update))]
 	internal class AfflicationADScrollAndAlternativeTreatWound
 	{
