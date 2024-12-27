@@ -33,7 +33,7 @@ namespace QoL
 
 		[Name("GearItem LOD Size Scale")]
 		[Description("Adjust the distance an item becomes visible, could impact graphic performance.")]
-		[Slider(1f, 3f)]
+		[Slider(1f, 5f)]
 		public float lodScale = 1f;
 		[Name("Void Trash Can")]
 		[Description("Enable fast degrading for items in trash cans. Also destroys ruined items in them. Not very immersive, but help when you are flooded with unwanted items.")]
