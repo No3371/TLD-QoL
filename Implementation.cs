@@ -10,7 +10,7 @@ namespace QoL
 {
     public class Implementation : MelonMod
 	{
-		public const string VERSION = "1.7.2";
+		public const string VERSION = "1.7.3";
         public override void OnInitializeMelon()
 		{
 			MelonLogger.Msg($"[{Info.Name}] Version {Info.Version} loaded!");
