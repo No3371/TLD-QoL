@@ -14,7 +14,7 @@ internal class TrashCanWarning
 	static void Postfix(Panel_Container __instance)
 	{
 		if (Settings.options.voidTrashCan
-		 && __instance.m_Container.name == "CONTAINER_TrashCanister"
+		 && __instance.m_Container.name.Contains("CONTAINER_TrashCanister")
 		 && !__instance.m_Container.IsEmpty())
 		{
 			MelonCoroutines.Start(DelayedWarning());
@@ -38,7 +38,7 @@ internal class TrashCan
 	static void Postfix(Container __instance)
 	{
 		if (!__instance.m_StartHasBeenCalled || !Settings.options.voidTrashCan) return;
-		if (!__instance.IsInspected() || __instance.name != "CONTAINER_TrashCanister" || __instance.IsEmpty()) return;
+		if (!__instance.IsInspected() || !__instance.name.Contains("CONTAINER_TrashCanister") || __instance.IsEmpty()) return;
 
 		cache.Clear();
 		__instance.GetItems(cache);
