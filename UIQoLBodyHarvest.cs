@@ -14,7 +14,7 @@ internal class UIQoLBodyHarvest
 
 
 		if (InputManager.GetKeyDown(InputManager.m_CurrentContext, KeyCode.D)
-		 && KeyboardUtilities.InputManager.GetKey(Settings.options.bulkKey)
+		 && Implementation.IM.GetKey(Settings.options.bulkKey)
 		 && __instance.IsTabHarvestSelected()
 		 && __instance.m_SelectedButtonIndex == 0)
 		{
@@ -25,7 +25,7 @@ internal class UIQoLBodyHarvest
 			return;
 		}
 		else if (InputManager.GetKeyDown(InputManager.m_CurrentContext, KeyCode.A)
-		 && KeyboardUtilities.InputManager.GetKey(Settings.options.bulkKey)
+		 && Implementation.IM.GetKey(Settings.options.bulkKey)
 		 && __instance.IsTabHarvestSelected()
 		 && __instance.m_SelectedButtonIndex == 0)
 		{
@@ -37,7 +37,7 @@ internal class UIQoLBodyHarvest
 		}
 
 		if (InputManager.GetKeyDown(InputManager.m_CurrentContext, KeyCode.D)
-		 && KeyboardUtilities.InputManager.GetKey(Settings.options.bulkKey)
+		 && Implementation.IM.GetKey(Settings.options.bulkKey)
 		 && __instance.IsTabHarvestSelected()
 		 && __instance.m_SelectedButtonIndex == 2)
 		{
@@ -48,7 +48,7 @@ internal class UIQoLBodyHarvest
 			return;
 		}
 		else if (InputManager.GetKeyDown(InputManager.m_CurrentContext, KeyCode.A)
-		 && KeyboardUtilities.InputManager.GetKey(Settings.options.bulkKey)
+		 && Implementation.IM.GetKey(Settings.options.bulkKey)
 		 && __instance.IsTabHarvestSelected()
 		 && __instance.m_SelectedButtonIndex == 2)
 		{
@@ -60,7 +60,7 @@ internal class UIQoLBodyHarvest
 		}
 
 		if (InputManager.GetKeyDown(InputManager.m_CurrentContext, KeyCode.D)
-		 && KeyboardUtilities.InputManager.GetKey(Settings.options.modifierKey)
+		 && Implementation.IM.GetKey(Settings.options.modifierKey)
 		 && __instance.IsTabHarvestSelected()
 		 && __instance.m_HarvestTabButtonRight.active)
 		{
@@ -68,7 +68,7 @@ internal class UIQoLBodyHarvest
 			return;
 		}
 		else if (InputManager.GetKeyDown(InputManager.m_CurrentContext, KeyCode.A)
-			 && KeyboardUtilities.InputManager.GetKey(Settings.options.modifierKey)
+			 && Implementation.IM.GetKey(Settings.options.modifierKey)
 			 && __instance.IsTabQuarterSelected())
 		{
 			__instance.OnTabHarvestSelected();

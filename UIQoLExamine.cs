@@ -60,7 +60,7 @@ internal class UIQoLExamine
 			else if (__instance.m_ReadPanel.active)
 				__instance.OnRead();
 			else
-				EAPISupport.Instance?.TryPerformAction();
+				EAPISupport.Instance?.PerformAction();
 
 			return;
 		}
@@ -70,7 +70,7 @@ internal class UIQoLExamine
 			if (InputManager.GetKeyDown(InputManager.m_CurrentContext, KeyCode.A) || InputManager.GetScroll(InputManager.m_CurrentContext) > 0)
 			{
 				__instance.OnReadHoursDecrease();
-				if (KeyboardUtilities.InputManager.GetKey(Settings.options.bulkKey))
+				if (Implementation.IM.GetKey(Settings.options.bulkKey))
 				{
 					__instance.OnReadHoursDecrease(); __instance.OnReadHoursDecrease(); __instance.OnReadHoursDecrease(); __instance.OnReadHoursDecrease();
 				}
@@ -78,7 +78,7 @@ internal class UIQoLExamine
 			else if (InputManager.GetKeyDown(InputManager.m_CurrentContext, KeyCode.D) || InputManager.GetScroll(InputManager.m_CurrentContext) < 0)
 			{
 				__instance.OnReadHoursIncrease();
-				if (KeyboardUtilities.InputManager.GetKey(Settings.options.bulkKey))
+				if (Implementation.IM.GetKey(Settings.options.bulkKey))
 				{
 					__instance.OnReadHoursIncrease(); __instance.OnReadHoursIncrease(); __instance.OnReadHoursIncrease(); __instance.OnReadHoursIncrease();
 				}

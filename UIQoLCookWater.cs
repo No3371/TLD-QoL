@@ -25,7 +25,7 @@ internal class BulkIncreaseMeltUnits
 	static int count = 0;
 	private static void Postfix(Panel_CookWater __instance)
 	{
-		if (!KeyboardUtilities.InputManager.GetKey(Settings.options.bulkKey)) return;
+		if (!Implementation.IM.GetKey(Settings.options.bulkKey)) return;
 		if (count++ >= 4) count = 0;
 		else
 			__instance.OnMeltSnowUp();
@@ -38,7 +38,7 @@ internal class BulkDecreaseMeltUnits
 	static int count = 0;
 	private static void Postfix(Panel_CookWater __instance)
 	{
-		if (!KeyboardUtilities.InputManager.GetKey(Settings.options.bulkKey)) return;
+		if (!Implementation.IM.GetKey(Settings.options.bulkKey)) return;
 		if (count++ >= 4) count = 0;
 		else
 			__instance.OnMeltSnowDown();
@@ -50,7 +50,7 @@ internal class BulkIncreaseCookingWaterUnits
 	static int count = 0;
 	private static void Postfix(Panel_CookWater __instance)
 	{
-		if (!KeyboardUtilities.InputManager.GetKey(Settings.options.bulkKey)) return;
+		if (!Implementation.IM.GetKey(Settings.options.bulkKey)) return;
 		if (count++ >= 4) count = 0;
 		else
 			__instance.OnWaterUp();
@@ -63,7 +63,7 @@ internal class BulkDecreaseCookingWaterUnits
 	static int count = 0;
 	private static void Postfix(Panel_CookWater __instance)
 	{
-		if (!KeyboardUtilities.InputManager.GetKey(Settings.options.bulkKey)) return;
+		if (!Implementation.IM.GetKey(Settings.options.bulkKey)) return;
 		if (count++ >= 4) count = 0;
 		else
 			__instance.OnWaterDown();
@@ -76,7 +76,7 @@ internal class BulkIncreaseBoilUnits
 	static int count = 0;
 	private static void Postfix(Panel_CookWater __instance)
 	{
-		if (!KeyboardUtilities.InputManager.GetKey(Settings.options.bulkKey)) return;
+		if (!Implementation.IM.GetKey(Settings.options.bulkKey)) return;
 		if (count++ >= 4) count = 0;
 		else
 			__instance.OnBoilUp();
@@ -89,7 +89,7 @@ internal class BulkDecreaseBoilUnits
 	static int count = 0;
 	private static void Postfix(Panel_CookWater __instance)
 	{
-		if (!KeyboardUtilities.InputManager.GetKey(Settings.options.bulkKey)) return;
+		if (!Implementation.IM.GetKey(Settings.options.bulkKey)) return;
 		if (count++ >= 4) count = 0;
 		else
 			__instance.OnBoilDown();

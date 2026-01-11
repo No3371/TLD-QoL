@@ -18,7 +18,7 @@ internal class UIQoLCooking
 		}
 
 
-		if (KeyboardUtilities.InputManager.GetKey(Settings.options.bulkKey))
+		if (Implementation.IM.GetKey(Settings.options.bulkKey))
 		{
 			if (InputManager.GetScroll(InputManager.m_CurrentContext) > 0 || InputManager.GetKeyDown(InputManager.m_CurrentContext, KeyCode.W))
 			{
@@ -33,12 +33,12 @@ internal class UIQoLCooking
 		else
 		{
 			if (InputManager.GetKeyDown(InputManager.m_CurrentContext, KeyCode.W)
-			&& KeyboardUtilities.InputManager.GetKey(Settings.options.modifierKey))
+			&& Implementation.IM.GetKey(Settings.options.modifierKey))
 			{
 				__instance.m_CategoryNavigation.OnNavigateUp();
 			}
 			else if (InputManager.GetKeyDown(InputManager.m_CurrentContext, KeyCode.S)
-			&& KeyboardUtilities.InputManager.GetKey(Settings.options.modifierKey))
+			&& Implementation.IM.GetKey(Settings.options.modifierKey))
 			{
 				__instance.m_CategoryNavigation.OnNavigateDown();
 			}

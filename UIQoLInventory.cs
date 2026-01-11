@@ -14,7 +14,7 @@ internal class UIQoLInventory
 		if (__instance.m_ItemDescriptionPage.m_ProgressBar.IsEnabled()) return;
 		if (InputManager.GetKeyDown(InputManager.m_CurrentContext, Settings.options.interactKey))
 		{
-			if (__instance.m_ItemDescriptionPage.m_MouseButtonExamine.active && KeyboardUtilities.InputManager.GetKey(Settings.options.modifierKey))
+			if (__instance.m_ItemDescriptionPage.m_MouseButtonExamine.active && Implementation.IM.GetKey(Settings.options.modifierKey))
 			{
 				__instance.OnExamine();
 			}
@@ -25,8 +25,8 @@ internal class UIQoLInventory
 		{
 			var gi = __instance.GetCurrentlySelectedItem().m_GearItem;
 			if (gi == null || gi.m_CantDropItem) return;
-			if (KeyboardUtilities.InputManager.GetKey(Settings.options.modifierKey)
-			&& !KeyboardUtilities.InputManager.GetKey(Settings.options.bulkKey))
+			if (Implementation.IM.GetKey(Settings.options.modifierKey)
+			&& !Implementation.IM.GetKey(Settings.options.bulkKey))
 			{
 				if (GameManager.GetSafehouseManager()?.IsCustomizing() == true)
 					GameManager.GetSafehouseManager()?.StopCustomizing();
@@ -51,26 +51,26 @@ internal class UIQoLInventory
 		}
 
 		if (InputManager.GetKeyDown(InputManager.m_CurrentContext, KeyCode.D)
-			 && KeyboardUtilities.InputManager.GetKey(Settings.options.modifierKey))
+			 && Implementation.IM.GetKey(Settings.options.modifierKey))
 		{
 			__instance.m_SelectedSortIndex = Math.Clamp(++__instance.m_SelectedSortIndex, 0, __instance.m_SortButtons.Length - 1);
 			__instance.OnSortChange(__instance.m_SortButtons[__instance.m_SelectedSortIndex]);
 		}
 		else if (InputManager.GetKeyDown(InputManager.m_CurrentContext, KeyCode.A)
-			 && KeyboardUtilities.InputManager.GetKey(Settings.options.modifierKey))
+			 && Implementation.IM.GetKey(Settings.options.modifierKey))
 		{
 			__instance.m_SelectedSortIndex = Math.Clamp(--__instance.m_SelectedSortIndex, 0, __instance.m_SortButtons.Length - 1);
 			__instance.OnSortChange(__instance.m_SortButtons[__instance.m_SelectedSortIndex]);
 		}
 		else if (InputManager.GetKeyDown(InputManager.m_CurrentContext, KeyCode.W)
-		 && KeyboardUtilities.InputManager.GetKey(Settings.options.modifierKey))
+		 && Implementation.IM.GetKey(Settings.options.modifierKey))
 		{
 			if (__instance.m_SelectedFilterIndex <= 0) __instance.m_SelectedFilterIndex += 10;
 			__instance.m_SelectedFilterIndex = Math.Clamp(--__instance.m_SelectedFilterIndex, 0, __instance.m_FilterButtons.Length - 1);
 			__instance.OnFilterChange(__instance.m_FilterButtons[__instance.m_SelectedFilterIndex]);
 		}
 		else if (InputManager.GetKeyDown(InputManager.m_CurrentContext, KeyCode.S)
-		 && KeyboardUtilities.InputManager.GetKey(Settings.options.modifierKey))
+		 && Implementation.IM.GetKey(Settings.options.modifierKey))
 		{
 			if (__instance.m_SelectedFilterIndex >= __instance.m_FilterButtons.Length - 1) __instance.m_SelectedFilterIndex -= 10;
 			__instance.m_SelectedFilterIndex = Math.Clamp(++__instance.m_SelectedFilterIndex, 0, __instance.m_FilterButtons.Length - 1);

@@ -17,7 +17,7 @@ internal class UIQoLPickWater
 
 		if (lastOpened == Time.frameCount)
 		{
-			if (KeyboardUtilities.InputManager.GetKey(Settings.options.bulkKey))
+			if (Implementation.IM.GetKey(Settings.options.bulkKey))
 			{
 				lastExecuted = Time.frameCount;
 				__instance.OnExecuteAll();
@@ -25,7 +25,7 @@ internal class UIQoLPickWater
 			}
 		}
 
-		if (KeyboardUtilities.InputManager.GetKey(Settings.options.bulkKey)
+		if (Implementation.IM.GetKey(Settings.options.bulkKey)
 		 && InputManager.GetKeyDown(InputManager.m_CurrentContext, KeyCode.A))
 		{
 			// __instance.m_numUnits = Mathf.Max(0, __instance.m_numUnits - 4);
@@ -35,7 +35,7 @@ internal class UIQoLPickWater
 			__instance.OnDecrease();
 			return;
 		}
-		else if (KeyboardUtilities.InputManager.GetKey(Settings.options.bulkKey)
+		else if (Implementation.IM.GetKey(Settings.options.bulkKey)
 		 && InputManager.GetKeyDown(InputManager.m_CurrentContext, KeyCode.D))
 		{
 			// __instance.m_numUnits = Mathf.Min(__instance.m_maxUnits, __instance.m_numUnits + 4);
@@ -45,9 +45,9 @@ internal class UIQoLPickWater
 			__instance.OnIncrease();
 			return;
 		}
-		if (KeyboardUtilities.InputManager.GetKey(Settings.options.interactKey)
-		 && KeyboardUtilities.InputManager.GetKey(Settings.options.bulkKey)
-		 && !KeyboardUtilities.InputManager.GetKey(Settings.options.modifierKey))
+		if (Implementation.IM.GetKey(Settings.options.interactKey)
+		 && Implementation.IM.GetKey(Settings.options.bulkKey)
+		 && !Implementation.IM.GetKey(Settings.options.modifierKey))
 		{
 			if (Time.frameCount - lastOpened <= 1) return;
 			__instance.OnExecuteAll();

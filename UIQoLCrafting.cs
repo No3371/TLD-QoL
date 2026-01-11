@@ -29,20 +29,20 @@ internal class UIQoLCrafting
 		}
 
 		if (InputManager.GetKeyDown(InputManager.m_CurrentContext, KeyCode.W)
-		 && KeyboardUtilities.InputManager.GetKey(Settings.options.bulkKey))
+		 && Implementation.IM.GetKey(Settings.options.bulkKey))
 		{
 			__instance.m_ScrollBehaviour.SetSelectedIndex(Mathf.Max(0, __instance.m_ScrollBehaviour.SelectedIndex - 4));
 			return;
 		}
 		else if (InputManager.GetKeyDown(InputManager.m_CurrentContext, KeyCode.S)
-		 && KeyboardUtilities.InputManager.GetKey(Settings.options.bulkKey))
+		 && Implementation.IM.GetKey(Settings.options.bulkKey))
 		{
 			__instance.m_ScrollBehaviour.SetSelectedIndex(Mathf.Min(__instance.m_ScrollBehaviour.m_TotalItems - 1, __instance.m_ScrollBehaviour.SelectedIndex + 4));
 			return;
 		}
 
 		if (InputManager.GetKeyDown(InputManager.m_CurrentContext, KeyCode.A)
-		 && KeyboardUtilities.InputManager.GetKey(Settings.options.modifierKey))
+		 && Implementation.IM.GetKey(Settings.options.modifierKey))
 		{
 			__instance.m_CurrentFilter = __instance.m_CurrentFilter - 1;
 			__instance.m_CurrentFilter = (Panel_Crafting.Filter)Math.Clamp((int)__instance.m_CurrentFilter, 0, __instance.m_FilterButtons.Count - 1);
@@ -50,7 +50,7 @@ internal class UIQoLCrafting
 			return;
 		}
 		else if (InputManager.GetKeyDown(InputManager.m_CurrentContext, KeyCode.D)
-		 && KeyboardUtilities.InputManager.GetKey(Settings.options.modifierKey))
+		 && Implementation.IM.GetKey(Settings.options.modifierKey))
 		{
 			__instance.m_CurrentFilter = __instance.m_CurrentFilter + 1;
 			__instance.m_CurrentFilter = (Panel_Crafting.Filter)Math.Clamp((int)__instance.m_CurrentFilter, 0, __instance.m_FilterButtons.Count - 1);
@@ -59,7 +59,7 @@ internal class UIQoLCrafting
 		}
 
 		if (InputManager.GetKeyDown(InputManager.m_CurrentContext, KeyCode.W)
-		 && KeyboardUtilities.InputManager.GetKey(Settings.options.modifierKey))
+		 && Implementation.IM.GetKey(Settings.options.modifierKey))
 		{
 			__instance.m_CategoryNavigation.OnNavigateUp();
 			// __instance.m_CurrentCategory = __instance.m_CurrentCategory - 1;
@@ -68,7 +68,7 @@ internal class UIQoLCrafting
 			return;
 		}
 		else if (InputManager.GetKeyDown(InputManager.m_CurrentContext, KeyCode.S)
-		 && KeyboardUtilities.InputManager.GetKey(Settings.options.modifierKey))
+		 && Implementation.IM.GetKey(Settings.options.modifierKey))
 		{
 			__instance.m_CategoryNavigation.OnNavigateDown();
 			// __instance.m_CurrentCategory = __instance.m_CurrentCategory + 1;
@@ -87,7 +87,7 @@ internal class UIQoLCrafting
 			else if (CraftingUILocator.UIComp.m_QuantitySelect.enabled)
 			{
 				CraftingUILocator.UIComp.m_QuantitySelect.OnDecrease();
-				if (KeyboardUtilities.InputManager.GetKey(Settings.options.bulkKey))
+				if (Implementation.IM.GetKey(Settings.options.bulkKey))
 				{
 					CraftingUILocator.UIComp.m_QuantitySelect.OnDecrease(); CraftingUILocator.UIComp.m_QuantitySelect.OnDecrease(); CraftingUILocator.UIComp.m_QuantitySelect.OnDecrease(); CraftingUILocator.UIComp.m_QuantitySelect.OnDecrease();
 				}
@@ -103,7 +103,7 @@ internal class UIQoLCrafting
 			else if (CraftingUILocator.UIComp.m_QuantitySelect.enabled)
 			{
 				CraftingUILocator.UIComp.m_QuantitySelect.OnIncrease();
-				if (KeyboardUtilities.InputManager.GetKey(Settings.options.bulkKey))
+				if (Implementation.IM.GetKey(Settings.options.bulkKey))
 				{
 					CraftingUILocator.UIComp.m_QuantitySelect.OnIncrease(); CraftingUILocator.UIComp.m_QuantitySelect.OnIncrease(); CraftingUILocator.UIComp.m_QuantitySelect.OnIncrease(); CraftingUILocator.UIComp.m_QuantitySelect.OnIncrease();
 				}

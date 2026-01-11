@@ -19,7 +19,7 @@ internal class UIQoLRestPanel
 			return;
 		}
 		if (InputManager.GetKeyDown(InputManager.m_CurrentContext, KeyCode.A)
-		 && KeyboardUtilities.InputManager.GetKey(Settings.options.modifierKey)
+		 && Implementation.IM.GetKey(Settings.options.modifierKey)
 		 && __instance.m_PassTimeButtonObject.active)
 		{
 			__instance.OnSelectRest();
@@ -27,7 +27,7 @@ internal class UIQoLRestPanel
 		}
 
 		else if (InputManager.GetKeyDown(InputManager.m_CurrentContext, KeyCode.D)
-		 && KeyboardUtilities.InputManager.GetKey(Settings.options.modifierKey)
+		 && Implementation.IM.GetKey(Settings.options.modifierKey)
 		 && __instance.m_SleepButton.active)
 		{
 			__instance.OnSelectPassTime();
@@ -37,7 +37,7 @@ internal class UIQoLRestPanel
 		if (InputManager.GetKeyDown(InputManager.m_CurrentContext, KeyCode.A) || InputManager.GetScroll(InputManager.m_CurrentContext) > 0)
 		{
 			__instance.OnDecreaseHours();
-			if (KeyboardUtilities.InputManager.GetKey(Settings.options.bulkKey))
+			if (Implementation.IM.GetKey(Settings.options.bulkKey))
 			{
 				__instance.OnDecreaseHours(); __instance.OnDecreaseHours(); __instance.OnDecreaseHours(); __instance.OnDecreaseHours();
 			}
@@ -45,7 +45,7 @@ internal class UIQoLRestPanel
 		else if (InputManager.GetKeyDown(InputManager.m_CurrentContext, KeyCode.D) || InputManager.GetScroll(InputManager.m_CurrentContext) < 0)
 		{
 			__instance.OnIncreaseHours();
-			if (KeyboardUtilities.InputManager.GetKey(Settings.options.bulkKey))
+			if (Implementation.IM.GetKey(Settings.options.bulkKey))
 			{
 				__instance.OnIncreaseHours(); __instance.OnIncreaseHours(); __instance.OnIncreaseHours(); __instance.OnIncreaseHours();
 			}

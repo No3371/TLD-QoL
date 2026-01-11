@@ -3,6 +3,7 @@ using HarmonyLib;
 using Il2Cpp;
 using UnityEngine;
 
+namespace QoL;
 
 [HarmonyPatch(typeof(PlayerManager), nameof(PlayerManager.UpdateInspectGear))]
 internal class FastPickAndAlternativeTakeIt
@@ -20,7 +21,7 @@ internal class FastPickAndAlternativeTakeIt
         bool trigger = false;
 
         if (!trigger)
-            trigger = (InputManager.GetFireReleased(InputManager.m_CurrentContext) || KeyboardUtilities.InputManager.GetKeyUp(QoL.Settings.options.interactKey))
+            trigger = (InputManager.GetFireReleased(InputManager.m_CurrentContext) || Implementation.IM.GetKeyUp(QoL.Settings.options.interactKey))
                    && (sinceLastInspect > QoL.Settings.options.fastPickMin && sinceLastInspect < QoL.Settings.options.fastPickMax);
 
         if (trigger)
@@ -63,7 +64,7 @@ internal class GearItemPreInspect
 
 
         LastInspect = Time.unscaledTime;
-        if (!KeyboardUtilities.InputManager.GetKey(QoL.Settings.options.interactKey)
+        if (!Implementation.IM.GetKey(QoL.Settings.options.interactKey)
          && !InputManager.GetFirePressed(InputManager.m_CurrentContext)) return;
 
         // MelonLogger.Msg("May trigger FastPick! Type: " + LastInspectType.ToString());

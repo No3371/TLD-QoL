@@ -9,7 +9,7 @@ internal class AlternativeInteract
 {
 	private static bool Postfix(bool __result)
 	{
-		if (!__result && KeyboardUtilities.InputManager.GetKeyDown(Settings.options.interactKey))
+		if (!__result && InputManager.GetKeyDown(InputManager.m_CurrentContext, Settings.options.interactKey))
 		{
 			__result = true;
 		}

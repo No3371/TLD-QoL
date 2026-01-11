@@ -21,7 +21,7 @@ internal class UIQoLClothing
 		 && Time.frameCount - lastTriggerFrame > 15
 		 && __instance.GetCurrentlySelectedGearItem() != null)
 		{
-			if (KeyboardUtilities.InputManager.GetKey(Settings.options.modifierKey))
+			if (Implementation.IM.GetKey(Settings.options.modifierKey))
 			{
 				__instance.OnActionsButton();
 			}
