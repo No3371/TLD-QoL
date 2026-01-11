@@ -1,6 +1,7 @@
 
 using HarmonyLib;
 using Il2Cpp;
+using Il2CppTLD.Gear;
 using UnityEngine;
 
 namespace QoL;
@@ -25,16 +26,34 @@ internal class UIQoLInventory
 		{
 			var gi = __instance.GetCurrentlySelectedItem().m_GearItem;
 			if (gi == null || gi.m_CantDropItem) return;
+
+			if (__instance.m_ItemDescriptionPage?.CanDrop(gi) != true) return;
 			if (Implementation.IM.GetKey(Settings.options.modifierKey)
 			&& !Implementation.IM.GetKey(Settings.options.bulkKey))
 			{
 				if (GameManager.GetSafehouseManager()?.IsCustomizing() == true)
 					GameManager.GetSafehouseManager()?.StopCustomizing();
-				var toDrop = gi.m_StackableItem?.DefaultUnitsInItem ?? 1;
-				toDrop = Mathf.Clamp(toDrop, 0, gi?.m_StackableItem?.m_Units ?? 1);
-				var dropped = gi.Drop(toDrop);
-				__instance.OnBack();
-				dropped.PerformAlternativeInteraction();
+
+				if (gi.GetComponent<TravoisItem>() != null)
+				{
+					__instance.OnDrop();
+					__instance.CloseSelf();
+				}
+				else if (gi.GetComponent<StackableItem>() != null)
+				{
+					var toDrop = gi.m_StackableItem?.DefaultUnitsInItem ?? 1;
+					toDrop = Mathf.Clamp(toDrop, 0, gi?.m_StackableItem?.m_Units ?? 1);
+					var dropped = gi.Drop(toDrop);
+					__instance.CloseSelf();
+					dropped?.PerformAlternativeInteraction();
+				}
+				else
+				{
+					__instance.OnDrop();
+					__instance.CloseSelf();
+					gi.PerformAlternativeInteraction();
+				}
+
 				return;
 			}
 			else

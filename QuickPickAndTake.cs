@@ -1,6 +1,7 @@
 
 using HarmonyLib;
 using Il2Cpp;
+using Il2CppTLD.Gear;
 using UnityEngine;
 
 namespace QoL;
@@ -29,8 +30,17 @@ internal class FastPickAndAlternativeTakeIt
             // if (gearItem.m_WaterSupply != null) __instance.RemoveWater(gearItem.m_WaterSupply, gearItem.m_WaterSupply.m_VolumeInLiters);
             // else if (gearItem.m_CookingPotItem != null)
             // MelonLogger.Msg("FastPick triggered!");
-            __instance.ProcessPickupItemInteraction(gearItem, false, false, false);
-            __instance.ExitInspectGearMode(false);
+            if (gearItem.GetComponent<TravoisItem>() != null)
+            {
+                __instance.OnPickupFromTravoisInspection();
+                __instance.ExitInspectGearMode(false);
+            }
+            else
+            {
+                // __instance.OnPickupFromStandardGearItemInspection();
+                __instance.ProcessPickupItemInteraction(gearItem, false, false, false);
+                __instance.ExitInspectGearMode(false);
+            }
             LastFastPickTriggered = Time.unscaledTime;
             LastTriggerFrameConsumed = GearItemPreInspect.LastTriggerFrame;
         }
