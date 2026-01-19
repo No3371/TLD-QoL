@@ -12,7 +12,7 @@ namespace QoL
     public class Implementation : MelonMod
 	{
 		internal static LegacyInput IM { get; private set; }
-		public const string VERSION = "1.7.5";
+		public const string VERSION = "1.7.6";
         public override void OnInitializeMelon()
 		{
 			MelonLogger.Msg($"[{Info.Name}] Version {Info.Version} loaded!");
