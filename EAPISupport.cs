@@ -12,8 +12,8 @@ internal class EAPISupport
 	{
 		EapiType = eapiType;
 
-		var methodInfo = AccessTools.FirstMethod(EapiType, mi => mi.Name == "PerformAction");
-		PerformAction = (VoidDelegate)methodInfo.CreateDelegate(typeof(VoidDelegate), AccessTools.FirstProperty(EapiType, pi => pi.Name == "Instance").GetValue(null));
+		var methodInfo = AccessTools.FirstMethod(EapiType, mi => mi.Name == "OnPerformSelectedAction");
+		OnPerformSelectedAction = (VoidDelegate)methodInfo.CreateDelegate(typeof(VoidDelegate), AccessTools.FirstProperty(EapiType, pi => pi.Name == "Instance").GetValue(null));
 		methodInfo = AccessTools.FirstMethod(EapiType, mi => mi.Name == "OnNextSubAction");
 		OnNextSubAction = (VoidDelegate)methodInfo.CreateDelegate(typeof(VoidDelegate), AccessTools.FirstProperty(EapiType, pi => pi.Name == "Instance").GetValue(null));
 		methodInfo = AccessTools.FirstMethod(EapiType, mi => mi.Name == "OnPreviousSubAction");
@@ -21,7 +21,7 @@ internal class EAPISupport
 	}
 
 	internal delegate void VoidDelegate();
-	internal VoidDelegate PerformAction { get; }
+	internal VoidDelegate OnPerformSelectedAction { get; }
 	internal VoidDelegate OnNextSubAction { get; }
 	internal VoidDelegate OnPreviousSubAction { get; }
 }

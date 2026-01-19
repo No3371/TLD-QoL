@@ -60,7 +60,7 @@ internal class UIQoLExamine
 			else if (__instance.m_ReadPanel.active)
 				__instance.OnRead();
 			else
-				EAPISupport.Instance?.PerformAction();
+				EAPISupport.Instance?.OnPerformSelectedAction();
 
 			return;
 		}
