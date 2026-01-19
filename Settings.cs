@@ -30,11 +30,6 @@ namespace QoL
 		[Description("FastPick won't be triggered if you hold Interact for longer than this")]
 		[Slider(0.8f, 2f)]
 		public float fastPickMax = 1f;
-
-		[Name("GearItem LOD Size Scale")]
-		[Description("Adjust the distance an item becomes visible, could impact graphic performance.")]
-		[Slider(1f, 5f)]
-		public float lodScale = 1f;
 		[Name("Void Trash Can")]
 		[Description("Enable fast degrading for items in trash cans. Also destroys ruined items in them. Not very immersive, but help when you are flooded with unwanted items.")]
 		public bool voidTrashCan = false;
@@ -65,11 +60,6 @@ namespace QoL
 		[Description("Random variance in search time scale.")]
 		[Slider(0.0f, 1f)]
 		public float containterSearchTimeScaleVar = 0.2f;
-
-		[Name("FPS Limit")]
-		[Description("Set max fps on game launch, if VSync is not off this gets overwritten by the game. Set to 0 to disable this.")]
-		[Slider(0, 360)]
-		public int fpsLimit = 0;
 
 		[Name("Container Weight Limit Scale")]
 		[Description("Scale container weight limit.")]
